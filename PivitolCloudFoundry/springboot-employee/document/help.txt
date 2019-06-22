@@ -1,0 +1,88 @@
+$ mvn clean package
+
+curl localhost:8080/employee
+
+========================================================================
+#To login into the PCF
+$ cf login
+
+# It will ask for Cloud Foundry API. Enter The following API value-
+ https://api.run.pivotal.io
+========================================================================
+$ cf login
+API endpoint: https://api.run.pivotal.io
+Email> adarshkumarsingh83@gmail.com
+Password>  *************
+Authenticating...
+OK
+Targeted org espark-adarsh
+Targeted space development
+API endpoint:   https://api.run.pivotal.io (API version: 2.137.0)
+User:           adarshkumarsingh83@gmail.com
+Org:            espark-adarsh
+Space:          development
+
+========================================================================
+ $ cf push espark-environment -p target/employee-producer-0.0.1-SNAPSHOT.jar
+========================================================================
+V18683:employee-producer akumar38$ cf push espark-environment -p target/employee-producer-0.0.1-SNAPSHOT.jar
+Pushing app espark-environment to org espark-adarsh / space development as adarshkumarsingh83@gmail.com...
+Getting app info...
+Creating app with these attributes...
++ name:       espark-environment
+  path:       /Users/akumar38/Desktop/bitbucket/PivitolCloudFoundry/employee-producer/target/employee-producer-0.0.1-SNAPSHOT.jar
+  routes:
++   espark-environment.cfapps.io
+
+Creating app espark-environment...
+Mapping routes...
+Comparing local files to remote cache...
+Packaging files to upload...
+Uploading files...
+ 234.14 KiB / 234.14 KiB [=======================================================================================================================================================] 100.00% 3s
+
+Waiting for API to complete processing files...
+timeout connecting to log server, no log will be shown
+
+
+Staging app and tracing logs...
+^[[2Amaximum number of connection retries reached
+
+
+Waiting for app to start...
+
+name:              espark-environment
+requested state:   started
+routes:            espark-environment.cfapps.io
+last uploaded:     Thu 20 Jun 14:21:42 CDT 2019
+stack:             cflinuxfs3
+buildpacks:        client-certificate-mapper=1.8.0_RELEASE container-security-provider=1.16.0_RELEASE
+                   java-buildpack=v4.19-offline-https://github.com/cloudfoundry/java-buildpack.git#3f4eee2 java-main java-opts java-security jvmkill-agent=1.16.0_RELEASE open-jdk-...
+
+type:            web
+instances:       1/1
+memory usage:    1024M
+start command:   JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvmkill-1.16.0_RELEASE=printHeapHistogram=1 -Djava.io.tmpdir=$TMPDIR -XX:ActiveProcessorCount=$(nproc)
+                 -Djava.ext.dirs=$PWD/.java-buildpack/container_security_provider:$PWD/.java-buildpack/open_jdk_jre/lib/ext
+                 -Djava.security.properties=$PWD/.java-buildpack/java_security/java.security $JAVA_OPTS" &&
+                 CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-3.13.0_RELEASE -totMemory=$MEMORY_LIMIT -loadedClasses=12982 -poolType=metaspace
+                 -stackThreads=250 -vmOptions="$JAVA_OPTS") && echo JVM Memory Configuration: $CALCULATED_MEMORY && JAVA_OPTS="$JAVA_OPTS $CALCULATED_MEMORY" && MALLOC_ARENA_MAX=2
+                 SERVER_PORT=$PORT eval exec $PWD/.java-buildpack/open_jdk_jre/bin/java $JAVA_OPTS -cp $PWD/. org.springframework.boot.loader.JarLauncher
+     state     since                  cpu    memory    disk      details
+#0   running   2019-06-20T19:21:59Z   0.0%   0 of 1G   0 of 1G
+
+========================================================================
+To Access the newly deployeed service from PCF
+========================================================================
+$ curl https://espark-environment.cfapps.io/employee
+
+
+========================================================================
+To Access the logs for newly deployeed service from PCF
+========================================================================
+$ cf logs espark-environment --recent
+
+========================================================================
+To Delete the service deployed on PCF
+========================================================================
+$ cf delete espark-environment -r -f
