@@ -1,0 +1,57 @@
+#To View the Python version it must be 2.6.5+
+$ python --version
+
+#Download the AWS CLI Bundled Installer.
+$ curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+
+#Unzip the package.
+$ unzip awscli-bundle.zip
+
+#Run the install program.
+$ sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+
+#Verify the 
+$ aws --version
+
+
+1.To create access keys for an IAM user
+https://console.aws.amazon.com/iam/.
+Security, Identity, & Compliance -> IAM -> Users-> Add User 
+--------------------------------------------------------------
+User name = xxxxxx
+Access type = Programmatic access
+            = AWS Management Console access
+--------------------------------------------------------------
+-> Permission -> Crate Group
+--------------------------------------------------------------
+ Group name = xxxxxx
+ select the permission for group =  AdministratorAccess
+--------------------------------------------------------------
+Download csv ->
+--------------------------------------------------------------
+User name	        Password	     Access key ID	        Secret access key	                        Console login link
+adxxxxxxxxxxxxxxx	V6xxxxxxxxxxxxx	AKIAXXXXXXXXXXXXXXXX	UIX/6zzTvfxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx	https://181404936220.signin.aws.amazon.com/console
+--------------------------------------------------------------
+
+2.Configuring the AWS CLI
+$ aws configure
+AWS Access Key ID [None]: AKIAXXXXXXXXXXXXXXXX
+AWS Secret Access Key [None]: UIX/6zzTvfUhG0Lxxxxxxxxxxxxxxxxxxxxxxxxx
+Default region name [None]: us-west-2
+Default output format [None]: json
+
+#To Verify the user information 
+$ aws iam list-users
+{
+    "Users": [
+        {
+            "UserName": "adarshxxxxxxxx", 
+            "Path": "/", 
+            "CreateDate": "2019-06-28T15:03:41Z", 
+            "UserId": "AIXXXXXXXXXXXX", 
+            "Arn": "arn:aws:iam::xxxxxx:user/adarshxxxxxxxx"
+        }
+    ]
+}
+
+

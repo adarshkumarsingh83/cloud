@@ -1,0 +1,74 @@
+http://blog.jimtough.com/docker-on-aws-part-4-simple-spring-boot-app/
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_GetStarted.html
+
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_AWSCLI_EC2.html
+
+https://medium.com/@marcus.cavalcanti/deploying-microservices-with-aws-fargate-f0578d8199a3
+
+#Login into the aws for docker 
+$ aws ecr get-login
+
+#To Create a repository 
+$ aws ecr create-repository --repository-name <REPO_NAME>
+$ aws ecr create-repository --repository-name espark-docker-container
+
+#To Delte a repository
+$ aws ecr delete-repository --repository-name hello-repository --region region --force
+
+#to list he repositories 
+$ aws ecr describe-repositories
+
+#To Tag the docker image to the aws repository 
+$ docker tag <DOCKER_REPO_URL/TAG> <AWS_REPO_URL>
+$ docker tag adarshkumarsingh83/spring-boot-docker xxxxxxx-central-1.amazonaws.com/espark-docker-container
+
+#login into the aws before docker push 
+$ aws ecr get-login --no-include-email
+
+# copy and paste the above cmd output and execute it for docker login 
+$ docker login -u AWS -p <eyJwYXlsb2FkIjsord........1NjE3ODAyODl9 -e none https://181404936220.dkr.ecr.us-west-2.amazonaws.com > 
+
+#To push the docker image to the repository 
+$ docker push <AWS_REPOSITORY_URL>
+$ docker push xxxxxxx-central-1.amazonaws.com/espark-docker-container
+
+#To get the Task skeleton from aws 
+$ aws ecs register-task-definition --generate-cli-skeleton
+
+$ aws ecs register-task-definition --cli-input-json input.json
+{
+  "family": "espark",
+  "containerDefinitions": [
+    {
+      "name": "espark",
+      "image": "xxxxxxxxx.dkr.ecr.ca-central-1.amazonaws.com/espark",
+      "cpu": 10,
+      "memory": 500,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80
+        }
+      ],
+      "entryPoint": [
+        "/usr/sbin/apache2",
+        "-D",
+        "FOREGROUND"
+      ],
+      "essential": true
+    }
+  ]
+}
+
+#To List task definitions 
+$ aws ecs list-task-definitions
+
+#Run the Task 
+$ aws ecs run-task --cluster default --task-definition espark:1 --count 1
+
+
+#list the task of cluster 
+$ aws ecs list-tasks --cluster <default>
+
+aws ecs describe-tasks --cluster <default> --task <task_ID>
