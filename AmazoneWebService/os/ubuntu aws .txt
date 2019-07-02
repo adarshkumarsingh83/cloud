@@ -1,0 +1,104 @@
+
+====================================================================================
+
+#open the terminal  after downloading the pem file change the permission to the 400
+$ sudo chmod 400 filename.pem 
+
+#Use this command to conect to the aws 
+$ ssh -i "<filename>.pem" ec2-user@<ec2-52-26-40-156.us-west-2>.compute.amazonaws.com
+
+#Installing apche on the ubuntu 
+$ sudo apt-get -y install apache2
+
+#To check the apache service is working on ubuntu 
+$ service apache2 status
+
+#To Start the Apache Service
+$ sudo systemctl start apache2.service
+
+#To Restart the Apache Service 
+$ sudo systemctl restart apache2.service
+
+#To Stop the apache service 
+$ sudo systemctl stop apache2.service
+
+#deployment directory of apche in ubuntu 
+$ cd /var/www/html 
+
+#Using the filezilla 
+file -> site manger 
+------------------------------------------------------------------------
+host = ubuntu@ec2-50-112-136-143.us-west-2.compute.amazonaws.com
+protocall =sftp 
+login type = key file 
+User = ubuntu 
+key file = file name.pem 
+------------------------------------------------------------------------
+
+
+====================================================================================
+sudo -s 
+sudo apt-get update
+
+====================================================================================
+Step 1: Install Java 8 (JDK 8)
+Open terminal and enter the following commands.
+/>sudo add-apt-repository -y ppa:webupd8team/java
+/>sudo apt-get update
+/>sudo apt-get dist-upgrade
+/>echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+/>echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+/>sudo apt-get -y install oracle-java8-installer
+
+Setup JAVA Environment
+/>sudo apt-get -y install oracle-java8-set-default
+
+Step 2: Verify JAVA Version
+After successfully installing oracle java using above step verify installed version using following command.
+/> java -version
+
+------------------------------------------------------------------------------------------------------------
+sudo -s 
+get-apt install git 
+git clone <url of the repo where tomcat is present>
+root@ip-172-31-8-233:~/home/ubuntu# sudo -s 
+root@ip-172-31-8-233:~/home/ubuntu# chmod 777 tomcat 
+root@ip-172-31-8-233:~/home/ubuntu# cd tomcat/bin 
+root@ip-172-31-8-233:~/server/tomcat/bin# chmod 777  catalina.sh
+root@ip-172-31-8-233:~/server/tomcat/bin# chmod 777 startup.sh
+root@ip-172-31-8-233:~/server/tomcat/bin# chmod 777 shutdown..sh
+root@ip-172-31-8-233:~/server/tomcat/bin#
+
+
+cd ..
+root@ip-172-31-8-233:~/tomcat# sudo ./bin/catalina.sh run
+Using CATALINA_BASE:   /home/ubuntu/tomcat
+Using CATALINA_HOME:   /home/ubuntu/tomcat
+Using CATALINA_TMPDIR: /home/ubuntu/tomcat/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /home/ubuntu/tomcat/bin/bootstrap.jar:/home/ubuntu/tomcat/bin/tomcat-juli.jar
+
+or 
+ubuntu@ip-172-31-8-233:~/tomcat$ sudo ./bin/startup.sh
+Using CATALINA_BASE:   /home/ubuntu/tomcat
+Using CATALINA_HOME:   /home/ubuntu/tomcat
+Using CATALINA_TMPDIR: /home/ubuntu/tomcat/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /home/ubuntu/tomcat/bin/bootstrap.jar:/home/ubuntu/tomcat/bin/tomcat-juli.jar
+Tomcat started.
+
+
+ubuntu@ip-172-31-8-233:~/tomcat$ ./bin/shutdown.sh
+Using CATALINA_BASE:   /home/ubuntu/tomcat
+Using CATALINA_HOME:   /home/ubuntu/tomcat
+Using CATALINA_TMPDIR: /home/ubuntu/tomcat/temp
+Using JRE_HOME:        /usr/lib/jvm/java-8-oracle
+Using CLASSPATH:       /home/ubuntu/tomcat/bin/bootstrap.jar:/home/ubuntu/tomcat/bin/tomcat-juli.jar
+
+
+use this in broswer to open the tomcat 
+<server dns name http://ec2-35-167-201-16.us-west-2.compute.amazonaws.com>:8080/
+
+root@ip-172-31-8-233:~/tomcat# chmod 777 webapps
+
+

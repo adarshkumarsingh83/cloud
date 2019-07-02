@@ -1,0 +1,42 @@
+
+
+@-> TO CREATE ELB
+$ aws elb create-load-balancer --load-balancer-name my-load-balancer --listeners "Protocol=HTTP,LoadBalancerPort=80,InstanceProtocol=HTTP,InstancePort=80" --availability-zones us-west-2a us-west-2b
+
+@->To Delete ELB
+$ aws elb delete-load-balancer --load-balancer-name <my-load-balancer>
+
+@->Adding the tags to ELB
+$ aws elb add-tags --load-balancer-name my-load-balancer --tags "Key=name,Value=myelb" "Key=key1,Value=val1"
+
+@->To create a security group,
+$ aws ec2 create-security-group --group-name my-sg --description "my security group for EC2"
+$ aws ec2 authorize-security-group-ingress --group-name my-sg --protocol tcp --port 22 --cidr 0.0.0.0/0
+$ aws ec2 authorize-security-group-ingress --group-name my-sg --protocol tcp --port 80 --cidr 0.0.0.0/0
+$ aws ec2 authorize-security-group-ingress --group-name my-sg --protocol tcp --port 8080 --cidr 0.0.0.0/0
+
+@->To check the security group using cli 
+ $ aws ec2 describe-security-groups
+ 
+@->Deleteing Secutiry Grop 
+ $ aws ec2 delete-security-group --group-name my-sg
+ 
+@=> To Check Specific security group based on id  
+ $ aws ec2 describe-security-groups --group-ids <sg-903004f8>
+
+@->Apply Secutiry Group to the AutoScaling
+$ aws elb apply-security-groups-to-load-balancer --load-balancer-name <my-load-balancer> --security-groups <sg-fc448899>
+
+@->Configuration of the health check
+$ aws elb configure-health-check --load-balancer-name <my-load-balancer> --health-check Target=HTTP:80/index.html,Interval=30,UnhealthyThreshold=2,HealthyThreshold=2,Timeout=3
+
+@->Configuration of the instances (instances must be already running)
+$ aws elb register-instances-with-load-balancer --load-balancer-name <my-load-balancer> --instances <i-d6f6fae3>
+$ aws elb register-instances-with-load-balancer --load-balancer-name <my-load-balancer> --instances <i-d6f6fae3>
+
+@->Deregister the instances from ELB
+$ aws elb deregister-instances-from-load-balancer --load-balancer-name <my-load-balancer> --instances <i-d6f6fae3>
+
+@->Describing ELB
+$ aws elb describe-load-balancers
+$ aws elb describe-load-balancers --load-balancer-name <my-load-balancer>

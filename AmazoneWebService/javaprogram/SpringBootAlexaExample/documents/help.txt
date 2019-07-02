@@ -1,0 +1,32 @@
+
+
+AlexaWebApplication/> mvn clean install
+AlexaWebApplication/> mvn package
+AlexaWebApplication/>mvn spring-boot:run
+
+WEB URL :=> http://localhost:9090/alexa
+
+#To test the functionality working
+WEB URL :=> http://localhost:9090/welcome
+
+========================================================================
+#To install ngrok on linux
+$ wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+
+#To unzip the ngrok
+$ unzip ngrok.zip
+
+#To execute the ngrok
+$ ./ngrok http 8080
+
+#Configuraiton url in developer site
+https://518040c7.ngrok.io/alexa
+========================================================================
+#process to generate the war file
+
+#configuration url in developer site
+https://80f41798.ngrok.io/<SpringBootAlexaExample-1.0-SNAPSHOT>/alexa
+
+#url to test webapp working
+http://<host:port>/SpringBootAlexaExample-1.0-SNAPSHOT/welcome
+

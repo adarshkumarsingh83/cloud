@@ -1,0 +1,44 @@
+{
+  "intents": [
+    {
+      "slots": [
+        {
+          "name": "welcome",
+          "type": "WELCOME"
+        }
+      ],
+      "intent": "welcome_note"
+    },
+    {
+      "slots": [
+        {
+          "name": "aboutme",
+          "type": "ABOUT_ME"
+        },
+        {
+          "name": "catchall",
+          "type": "MEANINGLESS_WORDS"
+        }
+      ],
+      "intent": "about_me"
+    },
+    {
+      "slots": [
+        {
+          "name": "goodbye",
+          "type": "GOODBYE"
+        }
+      ],
+      "intent": "goodbye_note"
+    },
+    {
+      "intent":"ServiceOne"
+    },
+    {
+      "intent":"ServiceTwo"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    }
+  ]
+}

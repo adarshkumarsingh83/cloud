@@ -1,0 +1,21 @@
+AutoScaling 
+1.fixed Size 
+2.Vaiable Size 
+  a.simple scaling
+  b.step scaling 
+
+Create Lauch Configuraiotn 
+-----------------------------
+
+#To Check the CPU status 
+$ top 
+  
+#To Increate the CPU Utilization 
+$ dd if=/dev/zero of=/dev/null&
+
+#To get the Pid of the process
+$ ps aef | grep dd  //aws linux
+$ ps aux | grep dd
+
+#To Kill the process Via PId
+$ kill -9 <pid>

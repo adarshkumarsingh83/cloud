@@ -1,0 +1,13 @@
+Goto -> Route53
+
+DNS MGMT -> CREATE HOSTED ZONE 
+->domain name which is created in the freenom without extension 
+->type public hosted zone 
+->create
+
+4 DNS service will be show in console which is associated with Route53
+user the aws Route53 name service in the any of the domain provider 
+option like use custom domain server
+
+
+

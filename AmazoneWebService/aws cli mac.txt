@@ -1,0 +1,21 @@
+# to install aws cli on mac 
+$ python --version
+
+#to install pip tool on mac 
+$ sudo easy_install pip
+$ pip --version
+
+
+$ sudo easy_install nose
+$ sudo easy_install tornado
+
+#pip tool of python to install the aws cli 
+$ sudo pip3 install awscli --upgrade --user
+
+#to verify the installation 
+$ aws --version
+
+#to update the aws cli 
+$ pip install awscli --upgrade --user
+
+

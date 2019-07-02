@@ -1,0 +1,318 @@
+
+----------------------------------
+CREATING A GROUP
+----------------------------------
+$ aws iam create-group --group-name <EC2ADMIN>
+{
+    "Group": {
+        "Path": "/",
+        "CreateDate": "2017-03-02T09:18:43.180Z",
+        "GroupId": "AGPAIIBZY5STGWBS7NXE6",
+        "Arn": "arn:aws:iam::789480450278:group/EC2ADMIN",
+        "GroupName": "EC2ADMIN"
+    }
+}
+
+$ aws iam create-group --group-name <S3ADMIN>
+{
+    "Group": {
+        "Path": "/",
+        "CreateDate": "2017-03-02T09:19:27.113Z",
+        "GroupId": "AGPAIJZCDTIRPC75BYS2Y",
+        "Arn": "arn:aws:iam::789480450278:group/S3ADMIN",
+        "GroupName": "S3ADMIN"
+    }
+}
+
+$ aws iam create-group --group-name <DEV>
+{
+    "Group": {
+        "Path": "/",
+        "CreateDate": "2017-03-02T09:20:13.479Z",
+        "GroupId": "AGPAJAWVG364CE5F7NPAA",
+        "Arn": "arn:aws:iam::789480450278:group/DEV",
+        "GroupName": "DEV"
+    }
+}
+
+----------------------------------
+DELETION OF THE GROUP  
+----------------------------------
+$ delete-group --group-name <EC2ADMIN>
+$ delete-group --group-name <S3ADMIN>
+$ delete-group --group-name <DEV>
+
+
+----------------------------------
+CREATING A USER
+----------------------------------
+$ aws iam create-user --user-name <adarsh>
+{
+    "User": {
+        "UserName": "adarsh",
+        "Path": "/",
+        "CreateDate": "2017-03-02T09:20:49.572Z",
+        "UserId": "AIDAJCKL52HTPO2EHT642",
+        "Arn": "arn:aws:iam::789480450278:user/adarsh"
+    }
+}
+
+$ aws iam create-user --user-name <dev>
+{
+    "User": {
+        "UserName": "dev",
+        "Path": "/",
+        "CreateDate": "2017-03-02T09:21:17.699Z",
+        "UserId": "AIDAJNN3736KBNLAFHKCS",
+        "Arn": "arn:aws:iam::789480450278:user/dev"
+    }
+}
+
+
+----------------------------------
+DELETION OF THE USER 
+----------------------------------
+$ aws iam delete-user --user-name <adarsh>
+$ aws iam delete-user --user-name <dev>
+
+
+----------------------------------
+ADDING A POLICY INTO THE GROUP 
+----------------------------------
+$ aws iam put-group-policy --group-name <EC2ADMIN> --policy-document file://ec2admin.json --policy-name <EC2ADMINGroupPolicy>
+
+$ aws iam put-group-policy --group-name <S3ADMIN> --policy-document file://s3admin.json --policy-name <S3ADMINGroupPolicy>
+
+$ aws iam put-group-policy --group-name <DEV> --policy-document file://ec2_s3_readonly.json  --policy-name <DEVGroupPolicy>
+
+
+----------------------------------
+DELETING A POLICY FROM THE GROUP 
+----------------------------------
+$ delete-group-policy --group-name <EC2ADMIN> --policy-name <EC2ADMINGroupPolicy>
+$ delete-group-policy --group-name <S3ADMIN> --policy-name <S3ADMINGroupPolicy>
+$ delete-group-policy --group-name <DEV> --policy-name <DEVGroupPolicy>
+
+----------------------------------
+ADDING A USER INTO THE GROUP 
+----------------------------------
+$ aws iam add-user-to-group --user-name <adarsh> --group-name <EC2ADMIN>
+$ aws iam add-user-to-group --user-name <adarsh> --group-name <S3ADMIN>
+$ aws iam add-user-to-group --user-name <dev> --group-name <DEV>
+
+
+----------------------------------
+DELETING A USER FROM THE GROUP 
+----------------------------------
+$ remove-user-from-group --group-name <EC2ADMIN> --user-name <adarsh>
+$ remove-user-from-group --group-name <S3ADMIN> --user-name <adarsh>
+$ remove-user-from-group --group-name <DEV> --user-name <dev>
+
+----------------------------------
+DESCRIBING THE GROUP 
+----------------------------------
+$ aws iam get-group --group-name <EC2ADMIN>
+$ aws iam get-group --group-name <S3ADMIN>
+$ aws iam get-group --group-name <DEV>
+
+
+===========================================================================================================================
+----------------------------------
+CREATING A USER
+----------------------------------
+$ aws iam create-user --user-name <MyAdmin>
+{
+    "User": {
+        "UserName": "MyAdmin",
+        "Path": "/",
+        "CreateDate": "2017-03-02T09:40:40.820Z",
+        "UserId": "AIDAIGLVKP3YLNRL5FCHQ",
+        "Arn": "arn:aws:iam::789480450278:user/MyAdmin"
+    }
+}
+
+$ aws iam create-user --user-name <MyUser>
+{
+    "User": {
+        "UserName": "MyUser",
+        "Path": "/",
+        "CreateDate": "2017-03-02T09:41:14.582Z",
+        "UserId": "AIDAJMGYGPQZGL6A4KX3Y",
+        "Arn": "arn:aws:iam::789480450278:user/MyUser"
+    }
+}
+
+
+----------------------------------
+ADDING A POLICY TO THE USER
+----------------------------------
+$ aws iam put-user-policy --user-name <MyAdmin> --policy-name <MyAdminUserPolicy> --policy-document file://myadminpolicy.json
+$ aws iam put-user-policy --user-name <MyUser> --policy-name <MyUserPolicy> --policy-document file://myuserpolicy.json
+
+----------------------------------
+DESCRIBING THE USER POLICY 
+----------------------------------
+$ aws iam list-user-policies --user-name <MyAdmin>
+{
+    "PolicyNames": [
+        "MyAdminUserPolicy"
+    ]
+}
+
+$ aws iam list-user-policies --user-name <MyUser>
+{
+    "PolicyNames": [
+        "MyUserPolicy"
+    ]
+}
+
+
+----------------------------------
+CREATING THE USER LOGIN AND PWD 
+----------------------------------
+$ aws iam create-login-profile --user-name <MyAdmin> --password <endless>
+{
+    "LoginProfile": {
+        "UserName": "MyAdmin",
+        "CreateDate": "2017-03-02T09:47:35.700Z",
+        "PasswordResetRequired": false
+    }
+}
+
+$ aws iam create-login-profile --user-name <MyUser> --password <endless>
+{
+    "LoginProfile": {
+        "UserName": "MyUser",
+        "CreateDate": "2017-03-02T09:48:03.402Z",
+        "PasswordResetRequired": false
+    }
+}
+
+
+----------------------------------
+CREATING THE USER ACCESS KEY AND SECREAT  THE USER POLICY 
+----------------------------------
+ $ aws iam create-access-key --user-name <MyAdmin>
+ {
+    "AccessKey": {
+        "UserName": "MyAdmin",
+        "Status": "Active",
+        "CreateDate": "2017-03-02T09:48:20.825Z",
+        "SecretAccessKey": "P2AGpMBZ0hb+ZYquW7buzy2paJewpasQL9p6PEMw",
+        "AccessKeyId": "AKIAINPFOK4RQCTJSD3Q"
+    }
+}
+
+ $ aws iam create-access-key --user-name <MyUser>
+ {
+    "AccessKey": {
+        "UserName": "MyUser",
+        "Status": "Active",
+        "CreateDate": "2017-03-02T09:48:43.443Z",
+        "SecretAccessKey": "d4kqDkYH0UHrYKegqyZbZs92bWNthVj6C+8REeuP",
+        "AccessKeyId": "AKIAJPS4LLWYODYGQEKQ"
+    }
+}
+
+----------------------------------
+DELETION OF THE ACCESS KEYS
+----------------------------------
+$ aws iam delete-access-key --user-name <MyAdmin> --access-key-id <AKIAINPFOK4RQCTJSD3Q>
+
+$ aws iam delete-access-key --user-name <MyUser> --access-key-id <AKIAJPS4LLWYODYGQEKQ>
+
+
+----------------------------------
+EC2 FULL ACCESS
+----------------------------------
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "ec2:*",
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "elasticloadbalancing:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "cloudwatch:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "autoscaling:*",
+            "Resource": "*"
+        }
+    ]
+}
+
+
+--------------------------------------------
+S3 FULL ACCESS
+--------------------------------------------
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": "*"
+        }
+    ]
+}
+
+--------------------------------------------
+EC2 READ ONLY ACCESS
+--------------------------------------------
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "ec2:Describe*",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "elasticloadbalancing:Describe*",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudwatch:ListMetrics",
+        "cloudwatch:GetMetricStatistics",
+        "cloudwatch:Describe*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "autoscaling:Describe*",
+      "Resource": "*"
+    }
+  ]
+}
+
+
+--------------------------------------------
+S3 READ ONLY ACCESS 
+--------------------------------------------
+ {
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:Get*",
+        "s3:List*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

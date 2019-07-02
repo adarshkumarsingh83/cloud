@@ -1,0 +1,35 @@
+
+
+@->Network -> Network & Sharing Center -> Windows Firewall -> Advance Setting ->Windows Firewall Properties -> 
+-----------------------------------------------------
+Domain Profile -> Inbound Connection change to allow 
+Private Profile -> Inbound Connection change to allow 
+Public Profile -> Inbound Connection change to allow 
+-----------------------------------------------------
+Click on apply & ok and all will be green 
+
+
+@->Browser -> Internet Option -> Security Tab -> Selection the Internet Globe Icon -> Custom level button 
+-----------------------------------------------------
+Setting -> Download Prefrences -> File Downloads -> enable
+Setting -> Download Prefrences -> Font Downloads -> enable
+Setting -> Scripting Prefrences -> Active Scripting -> enable
+-----------------------------------------------------
+Click on apply & ok 
+
+=================================================================
+SHARING THE FILE TO THE REMOTE WINDOWS SERVER 
+
+Go to find the RDP file amazon asked you to downloaded onto your local PC. right-click --> Edit
+Go to "Local Resources" tab --> "Local devices and resources" --> "More" button
+Expand the "Drives" and check the disks you want to share when you TS to the remote box.
+after connect, you will see the new drives in My Computer already mounted for you.
+
+1.Right Click on the Downloaded Windows RDP File 
+2.Select Edit Option in the Right Click Menu 
+3.Select the Local Resources Tab --> "Local devices and resources" --> "More" button
+4.Expand the Drives Select the Drive to Share with AWS Windows Instance 
+5.After connecting to the AWS Windows Instance We can see the shared local drive in 
+ AWS Windows Instance Under the MyComputers Drives s
+
+=================================================================

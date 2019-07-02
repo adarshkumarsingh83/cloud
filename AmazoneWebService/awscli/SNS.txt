@@ -1,0 +1,66 @@
+------------------------------------------
+CREATING TOPIC 
+------------------------------------------
+$ aws sns create-topic --name espark-topic
+{
+    "TopicArn": "arn:aws:sns:us-west-2:789480450278:espark-topic"
+}
+
+
+
+------------------------------------------
+SUBSCRIBING TO THE  TOPIC 
+------------------------------------------
+$ aws sns subscribe --topic-arn arn:aws:sns:us-west-2:789480450278:espark-topic --protocol email --notification-endpoint adarsh.kumar@photoninfotech.net
+{
+    "SubscriptionArn": "pending confirmation"
+}
+
+
+------------------------------------------
+PUBLISHING TO THE  TOPIC 
+------------------------------------------
+$ aws sns publish --topic-arn arn:aws:sns:us-west-2:789480450278:espark-topic --message "Hello From Aws!"
+{
+    "MessageId": "034c4bef-c645-5387-af7f-1ade320b4e2c"
+}
+
+------------------------------------------
+LISTING THE SUBSCRIBTION ARN 
+------------------------------------------
+$ aws sns list-subscriptions
+{
+    "Subscriptions": [      
+        {
+            "Owner": "789480450278",
+            "Endpoint": "adarsh.kumar@photoninfotech.net",
+            "Protocol": "email",
+            "TopicArn": "arn:aws:sns:us-west-2:789480450278:espark-topic",
+            "SubscriptionArn": "arn:aws:sns:us-west-2:789480450278:espark-topic:9ce6f052-5bdb-4929-a37a-8c20f8e76fc5"
+        }
+    ]
+}
+
+
+------------------------------------------
+UNSUBSCRIBE FROM THE TOPIC 
+------------------------------------------
+$  aws sns unsubscribe --subscription-arn arn:aws:sns:us-west-2:789480450278:espark-topic:9ce6f052-5bdb-4929-a37a-8c20f8e76fc5
+
+------------------------------------------
+LISTING THE TOPIC 
+------------------------------------------
+$ aws sns list-topics
+{
+    "Topics": [        
+        {
+            "TopicArn": "arn:aws:sns:us-west-2:789480450278:espark-topic"
+        }
+    ]
+}
+
+
+------------------------------------------
+DELETION OF THE TOPIC 
+------------------------------------------
+$ aws sns delete-topic --topic-arn arn:aws:sns:us-west-2:789480450278:espark-topic

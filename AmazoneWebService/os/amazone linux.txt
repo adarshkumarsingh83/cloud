@@ -1,0 +1,53 @@
+====================================================================================
+#changing to the super user
+sudo -s 
+#updating the os 
+sudo yum update -y 
+#installin the apache server
+sudo yum install httpd24
+#starting apache 
+sudo service httpd start
+#chekcing status of apache server 
+sudo service httpd status 
+#stopping apache server
+sudo service httpd stop
+#adding apache to the startup of the os  
+sudo chkconfig httpd on 
+#granting the permission 
+sudo chmod 777 <file or dir>
+====================================================================================
+#installing open jdk 
+sudo yum install java-1.8.0
+
+#unstalling open jdk 
+sudo yum remove java-1.7.0-openjdk
+
+#installing the oracle downlading from site
+wget -c --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-x64.rpm" --output-document="jdk-8u5-linux-x64.rpm"
+
+#setting the defaut
+sudo rpm -ivh jdk-8u5-linux-x64.rpm
+
+====================================================================================
+
+downlaod the tomcat from the url 
+https://tomcat.apache.org/download-80.cgi
+
+copy the tomcat to the location 
+/home/user
+
+$ sudo -s
+$ sudo chmod 777 tomcat8/
+$ cd tomcat8/
+
+$ sudo chmod 777 startup.sh
+$ sudo chmod 777 shutdown.sh
+$ sudo chmod 777 catalina.sh
+
+$ sudo ./bin/cataline.sh run  
+
+Url in the browser 
+http://<35.165.24.99>:8080/SpringWebMvcBasicExample/welcome.do
+
+====================================================================================
+war file name SpringWebMvcBasicExample 

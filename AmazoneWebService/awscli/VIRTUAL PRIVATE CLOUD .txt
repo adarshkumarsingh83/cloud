@@ -1,0 +1,534 @@
+http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-subnets-commands-example.html#vpc-subnets-commands-example-create-vpc
+
+CIRD CALCULATORS = http://www.ipaddressguide.com/cidr
+
+Classless Inter-Domain Routing (CIDR)
+--------------------------------------------------------------------------------------------
+example1 
+st 10.0.0.0
+   10.0.0.1
+   --   2.0
+   --   - -
+   --   254 - 
+end 10.255.255.255
+
+cidr format of (10.0.0.0 to 10.255.255.255)
+Ans 10.0.0.0/8
+explanation  :=> 8 mean only 10 (first 1 digit wil constant every digit will represent 8 bit )
+wil remains constant and rest last digit can change. total host in subnet will be 16777216
+--------------------------------------------------------------------------------------------
+example2 
+st 10.0.0.0
+   10.0.1.0
+   --   2.0
+   --   - -
+   --   254 - 
+end 10.0.255.255
+
+cidr format of (10.0.0.0 to 10.0.255.255)
+Ans 10.0.0.0/16
+explanation  :=> 16 mean only 10.0 (first 2 digit wil constant every digit will represent 8 bit )
+wil remains constant and rest last digit can change. total host in subnet will be 65536
+--------------------------------------------------------------------------------------------
+example3 
+st  10.0.0.0
+    10.0.0.1
+	--     2
+	--     -
+	--     254
+end 10.0.0.255
+
+cidr format of (10.0.0.0 to 10.0.0.255)
+Ans 10.0.0.0/24
+explanation  :=> 24 mean only 10.0.0 (first 3 digit wil constant every digit will represent 8 bit )
+wil remains constant and rest last digit can change . total host in subnet will be 256
+--------------------------------------------------------------------------------------------
+example4
+st  10.0.0.0 
+end 10.0.0.0
+
+cidr format of (10.0.0.0 to 10.0.0.0)
+Ans 10.0.0.0/32
+
+explanation  :=> 32 mean only 10.0.0.0 (all 4 digit wil constant every digit will represent 8 bit )
+wil remains constant and rest last digit can change . total host in subnet will be 1
+
+
+NOTE :=> IN AWS WE CAN HAVE ONLY MORE THEN /8 ALWAYS 
+         AWS DOESN'T ALLOW THE /8 IT SHOULD BE MORE THEN THAT 
+AWS WILL KEEP 5 IP FOR MANAGING SO EVERY TIME TOTAL IP IN SUBNET - 5 IS THE TOTAL IP IN THE AWS SUBNET		 
+================================================================================================
+Create a Virtual Private Cloud (vpc) and Subnets
+================================================================================================
+@-> Creating VPC 
+============================================
+$ aws ec2 create-vpc --cidr-block 10.0.0.0/16
+Exaplanation=> in this cidr 10.0.0.0/16 first two digit will be constanct and rest two can vary upto 255
+
+@-> Creating Subnet 
+============================================
+$ aws ec2 create-subnet --vpc-id <vpc-2f09a348> --cidr-block 10.0.0.0/24
+$ aws ec2 create-subnet --vpc-id <vpc-2f09a348> --cidr-block 10.0.1.0/24
+Exaplanation=> In the above VPC first two digit are constant then subnet can be created for 2 last digit.
+which means last two digit can change so we can create 2 subnet based on last two digit for the VPC.
+so we have created a two subnet where first 3 digit is constant and rest 1 digit will vary.
+the above subnet is the private subnet which is not accessable by the public internet.
+
+================================================================================================
+@-> Make Your Subnet Public
+================================================================================================
+@-> Create an Internet gateway.
+$ aws ec2 create-internet-gateway
+
+@-> Create a custom route table for your VPC
+$ aws ec2 create-route-table --vpc-id <vpc-2f09a348>
+
+@-> Create a route in the route table that points all traffic (0.0.0.0/0) to the Internet gateway.
+$ aws ec2 create-route --route-table-id <rtb-c1c8faa6> --destination-cidr-block 0.0.0.0/0 --gateway-id <igw-1ff7a07b>
+
+@-> Describing the Route Table 
+$ aws ec2 describe-route-tables --route-table-id <rtb-c1c8faa6>
+
+@-> Describing the Subnet
+$aws ec2 describe-subnets --filters "Name=vpc-id,Values=<vpc-2f09a348>" --query "Subnets[*].{ID:SubnetId,CIDR:CidrBlock}"
+
+@->Associating the subnet to Route Table 
+$ aws ec2 associate-route-table  --subnet-id <subnet-b46032ec> --route-table-id <rtb-c1c8faa6>
+
+@-> modify the public IP addressing behavior of subnet to get public ip 
+$ aws ec2 modify-subnet-attribute --subnet-id subnet-b46032ec --map-public-ip-on-launch
+
+================================================================================================
+Creating instance inside the vpc and subnet 
+================================================================================================
+@-> Creating the key value pair 
+$ aws ec2 create-key-pair --key-name mykey --query "KeyMaterial" --output text > mykey.pem
+
+@-> Createing the Security Group for the VPN 
+$ aws ec2 create-security-group --group-name Vpn-Security-Group --description "Security group for Ssh-http access for VPC" --vpc-id <vpc-2f09a348>
+$ aws ec2 authorize-security-group-ingress --group-id <sg-e1fb8c9a> --protocol tcp --port 22 --cidr 0.0.0.0/0
+$ aws ec2 authorize-security-group-ingress --group-id <sg-e1fb8c9a> --protocol tcp --port 80 --cidr 0.0.0.0/0
+$ aws ec2 authorize-security-group-ingress --group-id <sg-e1fb8c9a> --protocol tcp --port 8080 --cidr 0.0.0.0/0
+
+@-> Lauch the Instance in the VPN 
+$ aws ec2 run-instances --image-id <ami-a4827dc9> --count 1 --instance-type t2.micro --key-name mykey --security-group-ids <sg-e1fb8c9a> --subnet-id <subnet-b46032ec>
+
+@-> Describing the EC2 Instance 
+$ aws ec2 describe-instances --instance-id <i-0146854b7443af453>
+
+@-> Login to Ec2 using ssh 
+$ ssh -i "mykey.pem" ec2-user@<public ip of the instance>
+
+=================================================================================================
+Cleanup command
+=================================================================================================
+@->  Delete your security group:
+$ aws ec2 delete-security-group --group-id <sg-e1fb8c9a>
+
+@-> Delete your subnets:
+$ aws ec2 delete-subnet --subnet-id <subnet-b46032ec>
+
+@-> Delete your custom route table:
+$ aws ec2 delete-route-table --route-table-id <rtb-c1c8faa6>
+
+@-> Detach your Internet gateway from your VPC:
+$ aws ec2 detach-internet-gateway --internet-gateway-id <igw-1ff7a07b> --vpc-id <vpc-2f09a348>
+
+@->  Delete your Internet gateway:
+$ aws ec2 delete-internet-gateway --internet-gateway-id <igw-1ff7a07b>
+
+@-> Delete your VPC:
+$ aws ec2 delete-vpc --vpc-id <vpc-2f09a348>
+
+####################################################################################################
+VPC WITH PUBLIC SUBNET 
+===================================================================================================
+
+1.create a vpc 
+2.create a subnet
+3.Create a Ec2 Instance 
+4.Create Internet Gateway
+5.Elastic Ip 
+  a.create Elastic Ip 
+  b.associate-address
+6.Create a Route Table
+  a.create a new route table  
+  b.Route tab in the Route table window edit the entry add another route with 0.0.0.0/0 with internet-gateway-id 
+  c.Associate subnet to the route-table by making entrty in tab in the Route table window -> Subnet Associations tab
+7.login in to the ec2-instance 
+
+---------------------------------------------------------------------------------------------------------
+1.create a vpc 
+$ aws ec2 create-vpc --cidr-block 10.0.0.0/16
+{
+    "Vpc": {
+        "VpcId": "vpc-6cbbcd0b",
+        "InstanceTenancy": "default",
+        "Tags": [],
+        "Ipv6CidrBlockAssociationSet": [],
+        "State": "pending",
+        "DhcpOptionsId": "dopt-958eb4f1",
+        "CidrBlock": "10.0.0.0/16",
+        "IsDefault": false
+    }
+}
+
+---------------------------------------------------------------------------------------------------------
+2.create a subnet
+$ aws ec2 create-subnet --vpc-id vpc-6cbbcd0b --cidr-block 10.0.0.0/24
+{
+    "Subnet": {
+        "VpcId": "vpc-6cbbcd0b",
+        "AvailableIpAddressCount": 251,
+        "MapPublicIpOnLaunch": false,
+        "DefaultForAz": false,
+        "Ipv6CidrBlockAssociationSet": [],
+        "State": "pending",
+        "AvailabilityZone": "us-west-2a",
+        "SubnetId": "subnet-da49c7bd",
+        "CidrBlock": "10.0.0.0/24",
+        "AssignIpv6AddressOnCreation": false
+    }
+}
+
+---------------------------------------------------------------------------------------------------------
+3.a.Create Internet Gateway
+$ aws ec2 create-internet-gateway
+{
+    "InternetGateway": {
+        "Tags": [],
+        "InternetGatewayId": "igw-efdee28b",
+        "Attachments": []
+    }
+}
+
+
+3.b.Attaching to the vpc 
+$ aws ec2 attach-internet-gateway --internet-gateway-id <igw-efdee28b> --vpc-id <vpc-6cbbcd0b>
+
+3.c.Detaching the Internet gateway with vpc 
+$ aws ec2 detach-internet-gateway --internet-gateway-id <igw-c0a643a9> --vpc-id <vpc-a01106c2>
+
+3.d.Deleteing Internet Gateway
+$ aws ec2 delete-internet-gateway --internet-gateway-id <igw-c0a643a9>
+
+---------------------------------------------------------------------------------------------------------
+
+4.a.Create a Route Table
+$ aws ec2 create-route-table --vpc-id <vpc-6cbbcd0b>
+{
+    "RouteTable": {
+        "Associations": [],
+        "RouteTableId": "rtb-be8090d9",
+        "VpcId": "vpc-6cbbcd0b",
+        "PropagatingVgws": [],
+        "Tags": [],
+        "Routes": [
+            {
+                "GatewayId": "local",
+                "DestinationCidrBlock": "10.0.0.0/16",
+                "State": "active",
+                "Origin": "CreateRouteTable"
+            }
+        ]
+    }
+}
+
+
+4.b.Associating the public route with the internet-gateway
+$ aws ec2 create-route --route-table-id <rtb-be8090d9> --destination-cidr-block 0.0.0.0/0 --gateway-id <igw-efdee28b>
+{
+    "Return": true
+}
+
+
+4.c.Associate subnet to the route-table 
+$ aws ec2 associate-route-table --route-table-id <rtb-be8090d9> --subnet-id <subnet-da49c7bd>
+{
+    "AssociationId": "rtbassoc-f62d1990"
+}
+
+
+---------------------------------------------------------------------------------------------------------
+5. Creating & login into the ec2-instance 
+
+@-> Creating the key value pair 
+$ aws ec2 create-key-pair --key-name mykey --query "KeyMaterial" --output text > mykey.pem
+
+@-> Createing the Security Group for the VPN 
+$ $ aws ec2 create-security-group --group-name Vpn-Security-Group --description "Security group for Ssh-http access for VPC" --vpc-id <vpc-6cbbcd0b>
+{
+    "GroupId": "sg-164a676e"
+}
+
+$ aws ec2 authorize-security-group-ingress --group-id <sg-164a676e> --protocol tcp --port 22 --cidr 0.0.0.0/0
+$ aws ec2 authorize-security-group-ingress --group-id <sg-164a676e> --protocol tcp --port 80 --cidr 0.0.0.0/0
+$ aws ec2 authorize-security-group-ingress --group-id <sg-164a676e> --protocol tcp --port 8080 --cidr 0.0.0.0/0
+
+@-> Lauch the Instance in the VPN 
+$ aws ec2 run-instances --image-id <ami-f173cc91> --count 1 --instance-type t2.micro --key-name <mykey> --security-group-ids <sg-164a676e> --subnet-id <subnet-da49c7bd>
+{
+    "OwnerId": "789480450278",
+    "ReservationId": "r-02fb24d216f542d2e",
+    "Groups": [],
+    "Instances": [
+        {
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "PublicDnsName": "",
+            "RootDeviceType": "ebs",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "EbsOptimized": false,
+            "LaunchTime": "2017-03-06T10:49:21.000Z",
+            "PrivateIpAddress": "10.0.0.13",
+            "ProductCodes": [],
+            "VpcId": "vpc-6cbbcd0b",
+            "StateTransitionReason": "",
+            "InstanceId": "i-0fc39f36f27bdbf89",
+            "ImageId": "ami-f173cc91",
+            "PrivateDnsName": "ip-10-0-0-13.us-west-2.compute.internal",
+            "KeyName": "mykey",
+            "SecurityGroups": [
+                {
+                    "GroupName": "Vpn-Security-Group",
+                    "GroupId": "sg-164a676e"
+                }
+            ],
+            "ClientToken": "",
+            "SubnetId": "subnet-da49c7bd",
+            "InstanceType": "t2.micro",
+            "NetworkInterfaces": [
+                {
+                    "Status": "in-use",
+                    "MacAddress": "02:48:7e:ce:3b:85",
+                    "SourceDestCheck": true,
+                    "VpcId": "vpc-6cbbcd0b",
+                    "Description": "",
+                    "NetworkInterfaceId": "eni-8a4af9f9",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateIpAddress": "10.0.0.13"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "Attachment": {
+                        "Status": "attaching",
+                        "DeviceIndex": 0,
+                        "DeleteOnTermination": true,
+                        "AttachmentId": "eni-attach-d12af8b4",
+                        "AttachTime": "2017-03-06T10:49:21.000Z"
+                    },
+                    "Groups": [
+                        {
+                            "GroupName": "Vpn-Security-Group",
+                            "GroupId": "sg-164a676e"
+                        }
+                    ],
+                    "SubnetId": "subnet-da49c7bd",
+                    "OwnerId": "789480450278",
+                    "PrivateIpAddress": "10.0.0.13"
+                }
+            ],
+            "SourceDestCheck": true,
+            "Placement": {
+                "Tenancy": "default",
+                "GroupName": "",
+                "AvailabilityZone": "us-west-2a"
+            },
+            "Hypervisor": "xen",
+            "BlockDeviceMappings": [],
+            "Architecture": "x86_64",
+            "StateReason": {
+                "Message": "pending",
+                "Code": "pending"
+            },
+            "RootDeviceName": "/dev/xvda",
+            "VirtualizationType": "hvm",
+            "AmiLaunchIndex": 0
+        }
+    ]
+}
+
+@-> Creating Elastic IP for the Ec2 Instance 
+$ aws ec2 allocate-address
+{
+    "PublicIp": "52.38.140.60",
+    "Domain": "vpc",
+    "AllocationId": "eipalloc-77c1da10"
+}
+
+@->Associating the Elastic Ip with Instance
+$ aws ec2 associate-address --instance-id <i-0fc39f36f27bdbf89> --public-ip <52.38.140.60>
+{
+    "AssociationId": "eipassoc-67065a1d"
+}
+
+@-> Describing the EC2 Instance 
+$ aws ec2 describe-instances --instance-id <i-0fc39f36f27bdbf89>
+{
+    "Reservations": [
+        {
+            "OwnerId": "789480450278",
+            "ReservationId": "r-02fb24d216f542d2e",
+            "Groups": [],
+            "Instances": [
+                {
+                    "Monitoring": {
+                        "State": "disabled"
+                    },
+                    "PublicDnsName": "",
+                    "State": {
+                        "Code": 16,
+                        "Name": "running"
+                    },
+                    "EbsOptimized": false,
+                    "LaunchTime": "2017-03-06T10:49:21.000Z",
+                    "PublicIpAddress": "52.38.140.60",
+                    "PrivateIpAddress": "10.0.0.13",
+                    "ProductCodes": [],
+                    "VpcId": "vpc-6cbbcd0b",
+                    "StateTransitionReason": "",
+                    "InstanceId": "i-0fc39f36f27bdbf89",
+                    "EnaSupport": true,
+                    "ImageId": "ami-f173cc91",
+                    "PrivateDnsName": "ip-10-0-0-13.us-west-2.compute.internal",
+                    "KeyName": "mykey",
+                    "SecurityGroups": [
+                        {
+                            "GroupName": "Vpn-Security-Group",
+                            "GroupId": "sg-164a676e"
+                        }
+                    ],
+                    "ClientToken": "",
+                    "SubnetId": "subnet-da49c7bd",
+                    "InstanceType": "t2.micro",
+                    "NetworkInterfaces": [
+                        {
+                            "Status": "in-use",
+                            "MacAddress": "02:48:7e:ce:3b:85",
+                            "SourceDestCheck": true,
+                            "VpcId": "vpc-6cbbcd0b",
+                            "Description": "",
+                            "Association": {
+                                "PublicIp": "52.38.140.60",
+                                "PublicDnsName": "",
+                                "IpOwnerId": "789480450278"
+                            },
+                            "NetworkInterfaceId": "eni-8a4af9f9",
+                            "PrivateIpAddresses": [
+                                {
+                                    "Association": {
+                                        "PublicIp": "52.38.140.60",
+                                        "PublicDnsName": "",
+                                        "IpOwnerId": "789480450278"
+                                    },
+                                    "Primary": true,
+                                    "PrivateIpAddress": "10.0.0.13"
+                                }
+                            ],
+                            "Ipv6Addresses": [],
+                            "Attachment": {
+                                "Status": "attached",
+                                "DeviceIndex": 0,
+                                "DeleteOnTermination": true,
+                                "AttachmentId": "eni-attach-d12af8b4",
+                                "AttachTime": "2017-03-06T10:49:21.000Z"
+                            },
+                            "Groups": [
+                                {
+                                    "GroupName": "Vpn-Security-Group",
+                                    "GroupId": "sg-164a676e"
+                                }
+                            ],
+                            "SubnetId": "subnet-da49c7bd",
+                            "OwnerId": "789480450278",
+                            "PrivateIpAddress": "10.0.0.13"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Placement": {
+                        "Tenancy": "default",
+                        "GroupName": "",
+                        "AvailabilityZone": "us-west-2a"
+                    },
+                    "Hypervisor": "xen",
+                    "BlockDeviceMappings": [
+                        {
+                            "DeviceName": "/dev/xvda",
+                            "Ebs": {
+                                "Status": "attached",
+                                "DeleteOnTermination": true,
+                                "VolumeId": "vol-0bf0d14f90061e81b",
+                                "AttachTime": "2017-03-06T10:49:22.000Z"
+                            }
+                        }
+                    ],
+                    "Architecture": "x86_64",
+                    "RootDeviceType": "ebs",
+                    "RootDeviceName": "/dev/xvda",
+                    "VirtualizationType": "hvm",
+                    "AmiLaunchIndex": 0
+                }
+            ]
+        }
+    ]
+}
+
+@-> Loggin to Ec2 using ssh 
+$ ssh -i "mykey.pem" ec2-user@<public ip of the instance>
+---------------------------------------------------------------------------------------------------------
+1.Delete the instace 
+2.Elastic Ip 
+  a.Disassociate the ip 
+  b.release the ip 
+3.Internet Gateway
+  a.detach from vpc 
+  b.delete the internet gateway
+4.Route Table 
+  a.Routes delete the public cidr with internet-gateway
+  b.subnet dissassoicate 
+  c.delete route-table
+5.delete subnet
+6.delete vpc   
+
+####################################################################################################
+VPC WITH PRIVATE SUBNET 
+===================================================================================================
+1.Create a vpc 
+2.Create a subnet
+3.Create a Ec2 Instance 
+4.Create Internet Gateway
+  -attach to the vpc 
+5.Elastic Ip 
+  a.create Elastic Ip 
+  b.associate-address
+6.Create a Route Table
+  a.create a new route table  
+  b.Route tab in the Route table window edit the entry add another route with 0.0.0.0/0 with internet-gateway-id 
+  c.Associate subnet to the route-table by making entrty in tab in the Route table window -> Subnet Associations tab
+7.login in to the ec2-instance 
+8.create private subnet in the same vpc 
+9.spin the ec2-instance in the private subnet
+10.then use the public subnet ec2-instance to connect to the private subnet ec2-instance
+    a.login into the jump server which is public subnet ec2-instance
+	b.then user filezilla or winscp to copy the pem file to the jump server / public subnet ec2-instance then change the pem file permission.
+	c.then use the jump server or public subnet ec2-instance to connect to the private subnet ec2-instance using pem file 
+    d.use the private ip address of the ec2-instance of the private subnet.	
+	
+####################################################################################################
+NAT INSTANCE 
+===================================================================================================
+1.EC2 -> Lauch Instance -> Community AMIs (Search for Nat) -> my vpc -> public subnet -> Enable Auto-assign Public IP -> proceed without key-pair
+2.EC2 -> Running Instance List -> Select nat instance -> action -> Networking -> Enable Source/Destination Check -> Disable 
+2.create a route-table
+ a.create a route-table
+ b.add the route Destination as 0.0.0.0/0 and target is nat instance-id 
+ c.check the Subnet Associations tab for private subnet.
+
+
+

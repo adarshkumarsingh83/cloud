@@ -1,0 +1,18 @@
+{
+  "intents": [
+    {
+      "intent": "GreetIntent"
+    },
+    {
+      "intent":"ServiceOne"
+    },
+    {
+      "intent":"ServiceTwo"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    }
+  ]
+}
+
+

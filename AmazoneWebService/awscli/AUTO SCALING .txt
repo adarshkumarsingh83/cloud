@@ -1,0 +1,27 @@
+
+@->To create a security group,
+$ aws ec2 create-security-group --group-name my-sg --description "my security group for EC2"
+$ aws ec2 authorize-security-group-ingress --group-name my-sg --protocol tcp --port 22 --cidr 0.0.0.0/0
+$ aws ec2 authorize-security-group-ingress --group-name my-sg --protocol tcp --port 80 --cidr 0.0.0.0/0
+$ aws ec2 authorize-security-group-ingress --group-name my-sg --protocol tcp --port 8080 --cidr 0.0.0.0/0
+ 
+@->Deleteing Secutiry Group 
+$ aws ec2 delete-security-group --group-name <my-sg>
+ 
+@->To Create  key pair
+$ aws ec2 create-key-pair --key-name my-key --query "KeyMaterial" --output text > my-key.pem
+
+@->To Create a Lauch configuration 
+$ aws autoscaling create-launch-configuration --launch-configuration-name <My-Launch-Config>
+ --image-id ami-f173cc91 --instance-type t2.micro --security-groups <sg-eb2af88e>
+ --key-name <my-key>
+ 
+@->To Create a Autoscaling group
+$ aws autoscaling create-auto-scaling-group --auto-scaling-group-name <My-Auto-Scaling-Group> --launch-configuration-name <My-Launch-Config> --min-size 2 --max-size 3 --vpc-zone-identifier <subnet-908e5bf7>
+ 
+@->To Deleting the Auto-Scaling-Group
+$ aws autoscaling delete-auto-scaling-group --auto-scaling-group-name <My-Auto-Scaling-Group> --force-delete 
+
+@->To Deleteing Lauch Configuration
+$ aws autoscaling delete-launch-configuration --launch-configuration-name <My-Launch-Config>
+ 

@@ -1,0 +1,30 @@
+1.avalable in north vergenia region
+2.
+intent= goal of the user
+slot= word which help to fullfild the intent
+prompt = question asked by system 
+fullfiledment =
+
+IAM Role = lex chanal exection role 
+
+https://www.youtube.com/watch?v=7uG9cuxNo5k
+
+
+Amazon Lex Concepts
+=============================================================
+Bot – A bot contains all of the components of a conversation.
+
+Intent – An intent represents a goal that the bot’s user wants to achieve (buying a plane ticket, scheduling an appointment, or getting a weather forecast, and so forth).
+
+Utterance – An utterance is a spoken or typed phrase that invokes an intent. “I want to book a hotel” or “I want to order flowers” are two simple utterances.
+
+Slots – Each slot is a piece of data that the user must supply in order to fulfill the intent. Slots are typed; a travel bot could have slots for cities, states or airports.
+
+Prompt – A prompt is a question that asks the user to supply some data (for a slot) that is needed to fulfill an intent.
+
+Fulfillment – Fulfillment is the business logic that carries our the user’s intent. Lex supports the use of Lambda functions for fulfillment.
+
+Bots, intents, and slots are versioned so that you can draw clear lines between development, testing, staging, and production, in a multi-developer environment. You can create multiple aliases for each of your bots and maps them to specific versions of the components.
+
+
+

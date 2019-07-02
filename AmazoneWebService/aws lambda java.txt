@@ -1,0 +1,183 @@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+creating lambda function in java 
+https://www.youtube.com/watch?v=zaWxdVUFFcE
+
+1 step : creation of IAM Role 
+  goto IAM -> Roles -> Create New Role 
+    provide the role name -> next 
+	select the AWS Lambda -> selct AWS Lambda Full Access Role 
+	
+2 step : create a aws java lambda function 
+  
+maven dependency pom.xml
+================================================================
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>espark-lambda-java-example</groupId>
+    <artifactId>espark-lambda-java-example</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <packaging>jar</packaging>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-core</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
+
+EsparkJavaLambda.java
+-----------------------------------------------
+package com.espark.lambda;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+
+public class EsparkJavaLambda implements RequestHandler<String,String>{
+
+    public String handleRequest(String name, Context context) {
+        LambdaLogger logger = context.getLogger();
+        String message = "Welcome to the of Espark World " + name;
+        logger.log("EsparkJavaLambda -> esparkJavaLamHandler Exceuted " + message);
+        return message;
+    }
+}
+
+
+
+3 step : Create a Lambda function in the AWS 
+   AWS services -> Lambda  -> create a Lambda function
+   -> configure function -> provide 
+      Name , Description , Runtime -> (java8)
+	  -> upload a zip file or jar file 
+	  ->Lambda Function Handler and Role 
+	     Handler => package name followed by Class name (fully qualified name of the class)
+		 Role -> Chose Existing Role 
+		 Existing Role -> Select the role which we have created in IAM earlier 		 
+		Click on the Next Button   ->  Click on the Create Function Button
+		 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+deployment of lambda using api gateway in aws 
+https://www.youtube.com/watch?v=hUbS7-Jfhgs
+
+1 step : Create a Deployment using AWS Api Gateway 
+   AWS services -> APIGATEWAY -> Create New Api Gateway 
+   Api Name = EsparkJavaLambda
+   Description = Sample Espark Java Lambda Testing 
+   Click on -> Create Api Button 
+   
+   Click on Action Button -> Create Resource
+    Resource Name = EsparkJavaLambda
+    Resource Path = /esparkjavalambda	
+   Click on the Create Resource Button 
+   
+   Select the Resoure and Click on the Action -> Create Methods
+    .Selet the post method in drop down 
+	.Select the region of the lambda 
+	.Select the lambda Function name which we have created earlier 
+   Click on the Save button 
+
+   Click on the newly created post method and it has input box in left side provide the input and test 
+
+2 step: deploying the api 
+  Select the Deployment which is EsparkJavaLambda -> Actions -> Deploye Api 
+   .Deployment Stage = new Stage 
+   .Stage Name = EsparkJavaLambdaStage 
+   .Stage Description = EsparkJavaLambdaStage
+   .Deployment Description = EsparkJavaLambdaStage
+   Click on the deploye button 
+   
+3 step: Copy the invoke url and the resource name and test it via using post man or any rest client 
+   
+   https://kob12uiflb.execute-api.us-west-2.amazonaws.com/EsparkJavaLambdaStage/esparkjavalambda
+	
+		 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+==================================================================
+public static void handler(InputStream inputStream, OutputStream outputStream, Context context) {
+        System.out.println("Function name: " + context.getFunctionName());
+        System.out.println("Max mem allocated: " + context.getMemoryLimitInMB());
+        System.out.println("Time remaining in milliseconds: " + context.getRemainingTimeInMillis());
+        System.out.println("CloudWatch log stream name: " + context.getLogStreamName());
+        System.out.println("CloudWatch log group name: " + context.getLogGroupName());        
+}
+
+getMemoryLimitInMB(): Memory limit, in MB, you configured for the Lambda function.
+getFunctionName(): Name of the Lambda function that is running.
+getFunctionVersion(): The Lambda function version that is executing. If an alias is used to invoke the function, then getFunctionVersion will be the version the alias points to.
+getInvokedFunctionArn(): The ARN used to invoke this function. It can be function ARN or alias ARN. An unqualified ARN executes the $LATEST version and aliases execute the function version it is pointing to.
+getAwsRequestId(): AWS request ID associated with the request. This is the ID returned to the client called the invoke(). You can use the request ID for any follow up enquiry with AWS support. Note that if AWS Lambda retries the function (for example, in a situation where the Lambda function processing Amazon Kinesis records throw an exception), the request ID remains the same.
+getLogStreamName(): The CloudWatch log stream name for the particular Lambda function execution. It can be null if the IAM user provided does not have permission for CloudWatch actions.
+getLogGroupName(): The CloudWatch log group name associated with the Lambda function invoked. It can be null if the IAM user provided does not have permission for CloudWatch actions.
+getClientContext(): Information about the client application and device when invoked through the AWS Mobile SDK. It can be null.  Client context provides client information such as client ID, application title, version name, version code, and the application package name.
+getIdentity(): Information about the Amazon Cognito identity provider when invoked through the AWS Mobile SDK. It can be null.
+getRemainingTimeInMillis(): Remaining execution time till the function will be terminated, in milliseconds. At the time you create the Lambda function you set maximum time limit, at which time AWS Lambda will terminate the function execution. Information about the remaining time of function execution can be used to specify function behavior when nearing the timeout.
+getLogger(): Returns the Lambda logger associated with the Context object. For more information, see Logging (Java).
+==================================================================
+package example;
+import java.io.InputStream;
+import java.io.OutputStream;
+import com.amazonaws.services.lambda.runtime.Context; 
+
+public class Hello {
+    public static void myHandler(InputStream inputStream, OutputStream outputStream, Context context) {
+        
+        int letter;
+        try {       
+            while((letter = inputStream.read()) != -1)
+            {
+                outputStream.write(Character.toUpperCase(letter));
+            }
+            Thread.sleep(3000); // Intentional delay for testing the getRemainingTimeInMillis() result.
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+       
+        // For fun, let us get function info using the context object.
+        System.out.println("Function name: " + context.getFunctionName());
+        System.out.println("Max mem allocated: " + context.getMemoryLimitInMB());
+        System.out.println("Time remaining in milliseconds: " + context.getRemainingTimeInMillis());
+        System.out.println("CloudWatch log stream name: " + context.getLogStreamName());
+        System.out.println("CloudWatch log group name: " + context.getLogGroupName());
+    }
+}
+==================================================================
+
+http://docs.aws.amazon.com/lambda/latest/dg/java-context-object.html
+
+
+

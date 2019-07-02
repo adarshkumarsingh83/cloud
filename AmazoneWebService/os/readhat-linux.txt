@@ -1,0 +1,53 @@
+
+#Installation of the java8
+sudo yum install java-1.8.0
+sudo /usr/sbin/alternatives --config java
+
+=============================================================
+downlaod the tomcat from the url 
+https://tomcat.apache.org/download-80.cgi
+
+copy the tomcat to the location 
+/home/user
+
+[ec2-user@ip-172-31-18-158 ~]$ sudo -s
+[root@ip-172-31-18-158 ec2-user]# sudo chmod 777 tomcat8/
+[root@ip-172-31-18-158 ec2-user]# cd tomcat8/
+
+[root@ip-172-31-18-158 bin]# sudo chmod 777 startup.sh
+[root@ip-172-31-18-158 bin]# sudo chmod 777 shutdown.sh
+[root@ip-172-31-18-158 bin]# sudo chmod 777 catalina.sh
+
+[root@ip-172-31-18-158 tomcat]# sudo ./bin/cataline.sh run  
+
+Url in the browser 
+http://35.165.24.99:8080/SpringWebMvcBasicExample/welcome.do
+
+=============================================================
+#Install the Apache 
+[root@ip-172-31-18-158} sudo yum -y install httpd
+[root@ip-172-31-18-158} sudo service httpd start  
+[root@ip-172-31-18-158} sudo service httpd status  
+[root@ip-172-31-18-158} cd /var/www/html/
+
+[root@ip-172-31-18-158 htmnl} sudo vi index.html
+
+press i 
+
+<center>
+	<h1>
+	   WELCOME TO AWS 
+	</h1>
+</center>
+
+esc <-|
+:wq  <-|
+
+[root@ip-172-31-18-158 htmnl} sudo chmod 777 index.html 
+
+Url in the browser 
+http://35.165.24.99/
+==============================================================
+
+
+

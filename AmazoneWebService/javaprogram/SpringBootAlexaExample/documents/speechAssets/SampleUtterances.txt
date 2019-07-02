@@ -1,0 +1,14 @@
+GreetIntent hi
+GreetIntent say hi
+GreetIntent hello
+GreetIntent say hello
+GreetIntent hey
+GreetIntent say hey
+
+ServiceOne serviceone
+ServiceOne get me serviceone
+ServiceOne get me service one
+
+ServiceTwo servicetwo
+ServiceTwo get me servicetwo
+ServiceTwo get me service two

@@ -1,0 +1,48 @@
+https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/deploying-a-sample-skill-as-a-web-service#h2_setupEB
+
+===========================================================================================
+1:> Source Code Download from url
+https://github.com/amzn/alexa-skills-kit-java
+
+2:> build the source code using cmd
+alexa-skills-kit-java-master/> mvn clean package
+
+3:> after sucessful build we can get the jar file
+alexa-skills-kit-java-master\target> alexa-skills-kit-1.4.0
+
+4:>create maven web application and copy the jar file into the help dir
+
+5:> #move to the location where we have jar file for alexa-skills-kit
+AlexaWebApplication/> cd documents
+
+#execute the below mvn cmd to install the alexa-skills-kit jar file in maven repo
+AlexaWebApplication\documents> mvn install:install-file -Dfile=alexa-skills-kit-1.4.0.jar -DgroupId=com.amazon.alexa -DartifactId=alexa-skills-kit -Dversion=1.4.0 -Dpackaging=jar
+
+#add the below dependency in the pom of xml of the web application
+<dependency>
+    <groupId>com.amazon.alexa</groupId>
+    <artifactId>alexa-skills-kit</artifactId>
+    <version>1.4.0</version>
+ </dependency>
+
+6:> build the web application and start jetty for testing
+AlexaWebApplication/> mvn clean install
+AlexaWebApplication/> mvn package
+AlexaWebApplication/>mvn jetty:run
+WEB URL :=> http://localhost:8080/alexa-greet-web-sample/greet
+
+#To test the functionality working
+WEB URL :=> http://localhost:8080/alexa-greet-web-sample/welcome
+
+========================================================================
+#To install ngrok on linux
+$ wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+
+#To unzip the ngrok
+$ unzip ngrok.zip
+
+#To execute the ngrok
+$ ./ngrok http 8080
+========================================================================
+
+rest follow images in documents dir in project

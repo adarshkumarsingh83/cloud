@@ -1,0 +1,29 @@
+
+---------------------------------------------------------------------------
+utterances
+---------------------------------------------------------------------------
+welcome_note {welcome}
+
+about_me {aboutme} {catchall}
+
+goodbye_note {goodbye}
+
+ServiceOne serviceone
+ServiceOne get me serviceone
+ServiceOne get me service one
+ServiceOne get me servicei
+ServiceOne get me servicel
+
+ServiceTwo servicetwo
+ServiceTwo get me servicetwo
+ServiceTwo get me service two
+ServiceTwo get me serviceii
+ServiceTwo get me servicell
+
+--------------------------------------------
+GreetIntent hi
+GreetIntent say hi
+GreetIntent hello
+GreetIntent say hello
+GreetIntent hey
+GreetIntent say hey

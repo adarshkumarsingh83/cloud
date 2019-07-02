@@ -1,0 +1,78 @@
+
+click on the instance on -> select the option of Connect to the instance -> then copy the dns name  
+to connect to the server from putty 
+sudo apt-get update
+
+
+----------------------------------------------------------------------------------------------------------------------------
+Step 1: Install Java 8 (JDK 8)
+Open terminal and enter the following commands.
+/>sudo add-apt-repository -y ppa:webupd8team/java
+/>sudo apt-get update
+/>sudo apt-get dist-upgrade
+/>echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+/>echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+/>sudo apt-get -y install oracle-java8-installer
+
+Setup JAVA Environment
+/>sudo apt-get -y install oracle-java8-set-default
+
+Step 2: Verify JAVA Version
+After successfully installing oracle java using above step verify installed version using following command.
+/> java -version
+----------------------------------------------------------------------------------------------------------------------------
+
+tomcat installation 
+
+https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-ubuntu-16-04
+
+
+sudo apt-get install tomcat8 
+service tomcat start
+
+
+---------------------------------------------------------------------------------------------------------------------
+https://www.youtube.com/watch?v=9BAoJ7JZHr0
+
+
+https://www.youtube.com/watch?v=EHUSdAaHHzc
+
+https://www.youtube.com/watch?v=ljvgwmJCUjw
+1. Connect ssh to ec2 instance.
+
+2. Become the super user after executing the command
+sudo -s
+
+3. Type the following commands to install vncserver: 
+
+sudo apt-get install ubuntu-desktop
+sudo apt-get install vnc4server
+sudo apt-get install gnome-panel
+
+4. Type the command vncserver once.
+
+5. Remember the password you use for accessing the vncserver. Kill vncserver by typing the command vncserver-kill :1
+
+6. Type vi .vnc/xstartup and modify the file
+#!/bin/sh
+# Uncomment the following two lines for normal desktop:
+unset SESSION_MANAGER
+# exec /etc/X11/xinit/xinitrc
+gnome-session –session=gnome-classic &
+gnome-panel&
+
+7. Press ESC, followed by :wq to save and exit the file
+
+8. Type vncserver again to start vncserver.
+
+9. Download and install tightvnc to connect remote desktop from the following link
+http://www.tightvnc.com/download.php
+
+10. Now run tightvnc viewer
+
+11. Add the port no 5901 in your ec2 security group
+
+12. Write your public ip in remote host text box and port no. publicIp::port
+
+13. Your desktop in ec2 instance is ready and execute the command vncserver after every restart.
+---------------------------------------------------------------------------------------------------------------------

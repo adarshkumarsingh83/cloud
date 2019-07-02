@@ -1,0 +1,155 @@
+1.get the sample application modify the application 
+-----------------------------------------------------------------
+mkdir codedeploy-sample
+cd codedeploy-sample
+curl -O http://s3.amazonaws.com/aws-codedeploy-us-east-1/samples/latest/SampleApp_Linux.zip
+unzip SampleApp_Linux.zip
+rm SampleApp_Linux.zip
+
+2.push the code to the github 
+----------------------------------------------------------------
+git init
+git add .
+git commit -m "first commit"
+git remote add origin git@github.com:YOUR_USERNAME/YOUR_REPOSITORY.git
+git push -u origin master
+
+3.Create a roles 
+--------------------------------------------------------------------------
+IAM ROLES 
+------------------------------------------
+1.CodeDeployInstanceRole
+   Policy to be attach  => Select the EC2 for Below listed role 
+    AmazonEC2RoleforAWSCodeDeploy => allow ec2 to acess S3 
+	AutoScalingNotificationAccessRole => allow ec2 to acess sns and sqs
+2.CodeDeployServiceRole 
+   Policy to be attach  => Select the CodeDeploy for Below listed role     	
+   AWSCodeDeployRole => allow CodeDeploy Service to acess autoscaling /ec2/sns
+    Note: Edit Trust Relationship to ensure 
+	IAM -> Role -> 	AWSCodeDeployRole -> EditTrustRelationship
+	 "Service":"codedeploy.amazonaws.com"
+	 
+	 {
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": [
+          "codedeploy.amazonaws.com"
+        ]
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+
+
+4.launch the instances and execute the below bash file 
+--------------------------------------------------------------------------
+Create a Bash file and save the below content into the file 
+
+#!/bin/bash -x
+REGION=$(curl 169.254.169.254/latest/meta-data/placement/availability-zone/ | sed 's/[a-z]$//')
+sudo yum update -y 
+sudo yum install ruby wget -y  
+sudo yum install httpd
+cd /home/ec2-user
+wget http://aws-codedeploy-$REGION.s3.amazonaws.com/latest/install
+chmod +x./install
+sudo ./install auto 
+...........................
+$ sudo sh fileName.sh 
+
+#Knowing the status of the process 
+$  sudo ps ax | grep codeeploye
+
+######################################################################
+CCLI COMMANDS Create a Service Role for AWS CodeDeploy
+========================================================================
+CodeDeployDemo-Trust.json
+-----------------------------------------
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": [
+          "codedeploy.amazonaws.com"
+        ]
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+-----------------------------------------
+#Role Creation for AWS CodeDeploy
+C:/>aws iam create-role --role-name CodeDeployServiceRole --assume-role-policy-document file://CodeDeployDemo-Trust.json
+
+#To Get the ARN on CodeDeploy Role 
+c:/>aws iam get-role --role-name CodeDeployServiceRole --query "Role.Arn" --output text
+
+#Policy Assignment to the Role 
+c:/>aws iam attach-role-policy --role-name CodeDeployServiceRole --policy-arn arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole
+
+######################################################################
+CCLI COMMANDS Create a Instances Role for AWS EC2 Instance
+========================================================================
+CodeDeployDemo-EC2-Trust.json
+------------------------------------------
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+------------------------------------------
+
+CodeDeployDemo-EC2-Permissions.json
+------------------------------------------
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:Get*",
+        "s3:List*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+------------------------------------------
+#Role Creation for AWS EC2 Instance
+c:/>aws iam create-role --role-name CodeDeployDemo-EC2-Instance-Profile --assume-role-policy-document file://CodeDeployDemo-EC2-Trust.json
+
+#Attaching the role policy for aws Ec2 
+c:/>aws iam put-role-policy --role-name CodeDeployDemo-EC2-Instance-Profile --policy-name CodeDeployDemo-EC2-Permissions --policy-document file://CodeDeployDemo-EC2-Permissions.json
+
+# create-instance-profile 
+c:/>aws iam create-instance-profile --instance-profile-name CodeDeployDemo-EC2-Instance-Profile
+c:/>aws iam add-role-to-instance-profile --instance-profile-name CodeDeployDemo-EC2-Instance-Profile --role-name CodeDeployDemo-EC2-Instance-Profile
+
+#Listing the IAM Instance Profile Name 
+c:/>aws iam list-instance-profiles-for-role --role-name CodeDeployDemo-EC2-Instance-Profile --query "InstanceProfiles[0].InstanceProfileName" --output text
+
+
+
+https://aws.amazon.com/blogs/devops/setting-up-the-jenkins-plugin-for-aws-codedeploy/
+
+https://aws.amazon.com/blogs/devops/building-continuous-deployment-on-aws-with-aws-codepipeline-jenkins-and-aws-elastic-beanstalk/
+
+http://cloudacademy.com/blog/how-to-deploy-application-code-from-s3-using-aws-codedeploy/
+
+http://www.cuelogic.com/blog/how-to-use-jenkins-and-aws-code-deploy-as-a-ci-cd-tool/

@@ -1,0 +1,129 @@
+=============================================================================================================================
+Step 1: Choose an Amazon Machine Image (AMI)
+#Quick Start -> Selection of the OS 
+#My Amis -> Selection from the archived OS with configuraitons 
+#AWS Marketplace-> Market place where other and aws peoples has already customies the os configuraitons and some are free and some are paid 
+#Community AMIs->we can get the os from different communites 
+
+--------------------------------------------------------------------------------------
+Step 2: Choose an Instance Type
+#Family (Compute optimized,GPU compute,General purpose,Memory optimized,Storage optimized)
+#Type(nano,micro,small,large,xlarge)
+#CPU(1,2,4,8,16,32,64,128)
+#RAM Memoary(0.5,1,2,3.75,4,7.5,8,15,15,25,16,30,30.5,32,60,61,64,122,244,256,488,723,976,1952)
+#Internal Storage(EBS,1 x 4 (SSD),2 x 16 (SSD),1 x 32 (SSD),1 x 32 (SSD),1 x 60 (SSD)
+,2 x 40 (SSD),2 x 40 (SSD),1 x 80 (SSD),2 x 80 (SSD),2 x 80 (SSD),1 x 160 (SSD),2 x 120 (SSD),2 x 160 (SSD),1 x 320 (SSD),2 x 320 (SSD)
+,2 x 320 (SSD),1 x 800 (SSD),2 x 800 (SSD),1 x 1920,4 x 800 (SSD),2 x 1920,3 x 2048,8 x 800 (SSD),6 x 2048,12 x 2048,24 x 2048)
+#EBS OPTIMIZATION (YES,NO)
+#NETWORK PERFORMANCE(LOW TO MODRATE,MODRATE,HIGHT,10GB,20GB)
+
+--------------------------------------------------------------------------------------
+Step 3: Configure Instance Details
+#Number of instances
+#Purchasing option(Instances,Spot Requests,Reserved Instances,Scheduled Instances,Dedicated Hosts)
+#Network(VPC)
+#Subnet(public,private subnet)
+#Auto-assign Public IP(Requests a public IP address from Amazon's public IP address pool, to make your 
+                     instance reachable from the Internet. In most cases, the public IP address 
+					 is associated with the instance until it’s stopped or terminated, after which 
+					 it’s no longer available for you to use. If you require a persistent public IP 
+					 address that you can associate and disassociate at will, use an Elastic IP address 
+					 (EIP) instead. You can allocate your own EIP, and associate it to your instance after launch.)
+#IAM role (IAM roles for EC2 automatically deploys and rotates AWS credentials for you, removing the need 
+         to store your AWS access keys with your application. Select the instance profile that contains 
+		 the required IAM role. If you created your IAM role using the console, the instance profile 
+		 has the same name as your IAM role. )
+#Shutdown behavior(stop,terminate)
+#Enable termination protection(You can protect instances from being accidentally terminated. Once enabled, 
+                                          you won't be able to terminate this instance via the API or the 
+                              AWS Management Console until termination protection has been disabled.)
+#Monitoring(Enables you to monitor, collect, and analyze metrics about your instances through Amazon CloudWatch.
+            Additional charges apply if you enable this option.)
+#Advanced Details(You can specify user data to configure an instance or run a configuration script during launch. 
+                 If you launch more than one instance at a time, the user data is available to 
+				 all the instances in that reservation.)
+				 As text, As file, Input is already base64 encoded
+--------------------------------------------------------------------------------------
+Step 4: Add Storage 
+Note:Free tier eligible customers can get up to 30 GB of EBS General Purpose (SSD) or Magnetic storage.
+#Volume Type (Amazon EBS is a block-level storage volume that persists independently from the lifetime 
+              of an EC2 instance, so you can stop and restart your instance at a later time.
+			  Ephemeral instance store volumes are physically attached to the host computer.
+			  The data on an instance store persists only during the lifetime of the instance.)
+			  root volume is the main volume for any instance 
+#Device (The available device names for the volume. Depending on the block device driver of the selected AMI's kernel, 
+          the device may be attached with a different name than what you specify)
+#Snapshot (A snapshot is a backup of an EC2 volume that's stored in S3. 
+           You can create a new volume using data stored in a snapshot by entering the 
+		   snapshot's ID. You can search for public snapshots by typing text in the 
+		   Snapshot field. Descriptions are case-sensitive.)
+#Size (GiB)(Volume size must be greater than zero or the size of the snapshot used.
+             Provisioned IOPS (SSD) volumes must be at least 4 GiB in size.)
+#Volume Type (General Purpose (SSD) volumes can burst to 3000 IOPS, and deliver a 
+              consistent baseline of 3 IOPS/GiB. Provisioned IOPs (SSD) volumes can
+			  deliver up to 20000 IOPS, and are best for EBS-optimized instances. 
+			  Magnetic volumes, previously called standard volumes, 
+			  deliver 100 IOPS on average, and can burst to hundreds of IOPS)
+#IOPS      (The requested number of I/O operations per second that the volume can support. 
+            For Provisioned IOPS (SSD) volumes, you can provision up to 50 IOPS per GiB. 
+			For General Purpose (SSD) volumes, baseline performance is 3 IOPS per GiB, 
+			with a minimum of 100 IOPS and a maximum of 10000 IOPS. 
+			General Purpose (SSD) volumes under 1000 GiB can burst up to 3000 IOPS)
+#Throughput (MB/s) (Throughput that the volume can support is specified for Streaming Optimized volumes: ST1 and SC1)
+#Delete on Termination(EBS volumes persist independently from the running life of an EC2 instance. However, 
+                        you can choose to automatically delete an EBS volume when the associated instance is terminated.)
+#Encrypted(Volumes that are created from encrypted snapshots are automatically encrypted, and volumes that are created 
+          from unencrypted snapshots are automatically unencrypted. 
+		  If no snapshot is selected, you can choose to encrypt the volume.)
+--------------------------------------------------------------------------------------
+Step 5: Add Tags
+A tag consists of a case-sensitive key-value pair.Up to 50 tags maximum
+Key (127 characters maximum)
+Value (255 characters maximum)
+--------------------------------------------------------------------------------------
+Step 6: Configure Security Group
+A security group is a set of firewall rules that control the traffic for your instance. On this page,
+you can add rules to allow specific traffic to reach your instance.
+
+#Assign a security group(create new / choose exisiting )
+#Security group name: name of the security group 
+#Description: description of the security group
+#Type (ssh,tcp,cutom rules,http,https,pop,ldap,smtp)
+#Protocoll (TCP,UDP)
+#Port Range
+#Source(custom,myip,anywhere)
+--------------------------------------------------------------------------------------
+Step 7: Review Instance Launch
+#AMI Details
+#INSTANCE Type
+#SECURITY Group
+#INSTANCE DETAILS 
+#Storage
+#TAGS
+--------------------------------------------------------------------------------------
+KEY PAIRS 
+#CREATE NEW 
+#CHOOSE EXISTING KEY PAIRS
+=============================================================================================================================
+connect to the instance via ssh 
+#give permission to the pem file to execute 
+$ chmod 400 /path/my-key-pair.pem
+#connect to the aws via git client or any bash 
+ssh -i <path of the pem file with name >.pem ec2-user@<dns name >
+
+Example
+$ ssh -i adarsh.pem ec2-user@ec2-52-14-153-21.us-east-2.compute.amazonaws.com
+The authenticity of host 'ec2-52-14-153-21.us-east-2.compute.amazonaws.com (52.14.153.21)' can't be established.
+ECDSA key fingerprint is SHA256:3UXot8gSul6AE14t2U2vwpAu3zleNfd26B5auTNabUk.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'ec2-52-14-153-21.us-east-2.compute.amazonaws.com,52.14.153.21' (ECDSA) to the list of known hosts.
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-ami/2016.09-release-notes/
+4 package(s) needed for security, out of 7 available
+Run "sudo yum update" to apply all updates.
+[ec2-user@ip-172-31-47-88 ~]$
+

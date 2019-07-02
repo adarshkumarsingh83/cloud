@@ -1,0 +1,10 @@
+An example file would look like this
+
+cloud.aws.credentials.accessKey=ilaugsjdlkahgsdlaksdhg
+cloud.aws.credentials.secretKey=aöksjdhöadjs,höalsdhjköalsdjhasd+
+cloud.aws.region.static=EU_WEST_1
+cloud.aws.stack.name=AwsSampleStack
+cloud.aws.rds.RdsInstance.password=someVerySecretPassword
+Once you created the properties file you can start the application using the following command:
+
+mvn spring-boot:run -Drun.arguments="--spring.config.location=/path/to/your/properties/file,--spring.profiles.active=local"

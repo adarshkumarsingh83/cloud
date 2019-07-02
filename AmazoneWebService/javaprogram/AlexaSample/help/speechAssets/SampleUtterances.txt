@@ -1,0 +1,7 @@
+GreetIntent say hello
+GreetIntent say hello world
+GreetIntent hello
+GreetIntent say hi
+GreetIntent say hi world
+GreetIntent hi
+GreetIntent how are you

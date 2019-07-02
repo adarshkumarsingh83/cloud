@@ -1,0 +1,144 @@
+1.download the python from below url 
+----------------------------------------
+https://www.python.org/downloads/release/python-343/
+
+2.set the path of python in the env variable 
+-------------------------------------------
+->C:\Python34
+->C:\Python34\Scripts
+->%USERPROFILE%\AppData\Roaming\Python\Scripts
+
+C:\Python34;C:\Python34\Scripts;%USERPROFILE%\AppData\Roaming\Python\Scripts
+
+3.varification
+-------------------------------------- 
+C:\Windows\System32> python --version
+Python 3.4.3
+C:\Windows\System32> pip --version
+
+#for ubuntu
+$ sudo apt install python-pip
+
+#for installing cil in ubuntu
+$ pip install awscli
+
+
+4.Download the CLI from AWS site 
+-----------------------------------------------------
+url =>  https://aws.amazon.com/cli/
+
+4.Install the AWS CLI using pip:
+-------------------------------------------------------
+C:\Windows\System32> pip install --upgrade --user awscli
+
+5.Verify that the AWS CLI is installed correctly:
+---------------------------------------------------------
+C:\Windows\System32> aws --version
+aws-cli/1.11.44 Python/3.4.3 Windows/7 botocore/1.5.7
+
+6.to upgrade the cli 
+--------------------------------------------------------
+pip install --user --upgrade awscli
+
+
+7.configuration of the account with the cli 
+--------------------------------------------------------
+AWS Console-> My Account -> My Security Credentials -> Access Keys (Access Key ID and Secret Access Key)
+Access Key ID: AKIAJPPCRQIEHU2AFVKQ
+Secret Access Key: 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
+
+C:\Users\adarsh_k>aws configure
+AWS Access Key ID [None]: AKIAJPPCRQIEHU2AFVKQ
+AWS Secret Access Key [None]: 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
+Default region name [None]: us-west-2
+Default output format [None]: json
+
+==============================================================================================================
+ELASTIC CLOUD COMPUTE EC2 
+==============================================================================================================
+@=>EC2 Help command
+$ aws ec2 help
+
+@->To create a security group,
+$ aws ec2 create-security-group --group-name my-sg --description "my security group for EC2"
+$ aws ec2 authorize-security-group-ingress --group-name my-sg --protocol tcp --port 22 --cidr 0.0.0.0/0
+$ aws ec2 authorize-security-group-ingress --group-name my-sg --protocol tcp --port 80 --cidr 0.0.0.0/0
+$ aws ec2 authorize-security-group-ingress --group-name my-sg --protocol tcp --port 8080 --cidr 0.0.0.0/0
+
+@->To check the security group using cli 
+ $ aws ec2 describe-security-groups
+ 
+@->Deleteing Secutiry Grop 
+ $ aws ec2 delete-security-group --group-name my-sg
+ 
+@=> To Check Specific security group based on id  
+ $ aws ec2 describe-security-groups --group-ids <sg-903004f8>
+ 
+@->To Create  key pair
+$ aws ec2 create-key-pair --key-name my-key --query "KeyMaterial" --output text > my-key.pem
+
+@@NOTE -> AMI ID CAN WE OBTAINED FROM CONSOLE IN THE AMI LIST 
+@-> To launch and connect to the instance
+ex=>$ aws ec2 run-instances --image-id <ami-xxxxxxxx> --count 1 --instance-type <t2.micro> --key-name <MyKeyPair> --security-groups <my-sg>
+ex=>in specified subnet $  aws ec2 run-instances --image-id <ami-xxxxxxxx> --count 1 --instance-type <t2.micro> --key-name <MyKeyPair> --security-group-ids <sg-xxxxxxxx> --subnet-id <subnet-xxxxxxxx>
+$ aws ec2 run-instances --image-id ami-f173cc91 --security-group-ids <sg-a3aaecdb> --count 1 --instance-type t2.micro --key-name my-key --query "Instances[0].InstanceId"
+
+
+@-> To Describe the newly created instance 
+$ aws ec2 describe-instances --output table --region us-west-2
+
+
+@=>Adding a Name Tag to Your Instance
+$ aws ec2 create-tags --resources <i-xxxxxxxx> --tags Key=Name,Value=<MyInstance>
+
+@-> Command to get the public ip address of the newly launched instance 
+$  aws ec2 describe-instances --instance-ids <i-029a27e152dbcd0d3> --query "Reservations[0].Instances[0].PublicIpAddress"
+
+@->To connect the the instance 
+$ ssh -i my-key.pem ec2-user@<public ip>
+
+@=>Terminating Your Instance
+$ aws ec2 terminate-instances --instance-ids <i-5203422c>
+
+==============================================================================================================
+SIMPLE STOREAGE SERVICE S3 
+==============================================================================================================
+http://docs.aws.amazon.com/cli/latest/userguide/using-s3-commands.html
+
+@=>Creating Buckets
+$ aws s3 mb s3://bucket-name
+
+@=>Removing Buckets
+$ aws s3 rb s3://bucket-name
+
+To remove a non-empty bucket, you need to include the --force option.
+$ aws s3 rb s3://bucket-name --force
+
+@=>Listing Buckets
+$ aws s3 ls
+$ aws s3 ls s3://bucket-name
+$ aws s3 ls s3://bucket-name/path
+
+
+@=> Managing Objects
+
+
+
+// Copy MyFile.txt in current directory to s3://my-bucket/path
+$ aws s3 cp MyFile.txt s3://my-bucket/path/
+
+// Move all .jpg files in s3://my-bucket/path to ./MyDirectory
+$ aws s3 mv s3://my-bucket/path ./MyDirectory --exclude '*' --include '*.jpg' --recursive
+
+// List the contents of my-bucket
+$ aws s3 ls s3://my-bucket
+
+// List the contents of path in my-bucket
+$ aws s3 ls s3://my-bucket/path
+
+// Delete s3://my-bucket/path/MyFile.txt
+$ aws s3 rm s3://my-bucket/path/MyFile.txt
+
+// Delete s3://my-bucket/path and all of its contents
+$ aws s3 rm s3://my-bucket/path --recursive
+

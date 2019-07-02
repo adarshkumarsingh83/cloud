@@ -1,0 +1,9 @@
+Aws AMI 
+------------------------------
+1.Update Os 
+2.Install Httpd 
+3.Auto Start for httd 
+4.Deployment of the website 
+------------------------------
+
+the above is the 

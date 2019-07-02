@@ -1,0 +1,245 @@
+To Check the Install the EB CLI  
+ $ pip install --upgrade --user awsebcli
+ 
+Windows – 
+environment variables
+ %USERPROFILE%\AppData\Roaming\Python\Scripts
+Python 3.5+ on Windows – 
+ %USERPROFILE%\AppData\Roaming\Python\Pythonversion-number\Scripts
+ 
+To Check the Version of the EB CLI 
+ $ eb --version
+ 
+To Check the Unstall the EB CLI 
+ $ pip uninstall awsebcli
+ 
+ 
+Configure the EB CLI
+-----------------------------------
+1.EB CLI prompts you to select a region
+
+$ eb $ eb init
+
+Select a default region
+1) us-east-1 : US East (N. Virginia)
+2) us-west-1 : US West (N. California)
+3) us-west-2 : US West (Oregon)
+4) eu-west-1 : EU (Ireland)
+5) eu-central-1 : EU (Frankfurt)
+6) ap-south-1 : Asia Pacific (Mumbai)
+7) ap-southeast-1 : Asia Pacific (Singapore)
+8) ap-southeast-2 : Asia Pacific (Sydney)
+9) ap-northeast-1 : Asia Pacific (Tokyo)
+10) ap-northeast-2 : Asia Pacific (Seoul)
+11) sa-east-1 : South America (Sao Paulo)
+12) cn-north-1 : China (Beijing)
+13) us-east-2 : US East (Columbus)
+14) ca-central-1 : Canada (Central)
+15) eu-west-2 : EU (London)
+(default is 3): 3
+
+2. provide your access key and secret key 
+
+You have not yet set up your credentials or your credentials are incorrect
+You must provide your credentials.
+(aws-access-id): AKIAJOUAASEXAMPLE
+(aws-secret-key): 5ZRIrtTM4ciIAvd4EXAMPLEDtm+PiPSzpoK
+
+3.An application in Elastic Beanstalk is a resource that contains a set of application versions (source), environments, and saved configurations that are associated with a single web application. Each time you deploy your source code to Elastic Beanstalk using the EB CLI, a new application version is created and added to the list.
+
+Select an application to use
+1) [ Create new Application ]
+(default is 1): 1
+
+4.The default application name is the name of the folder in which you run 
+ $ eb init. Enter any name that describes your project.
+ 
+Enter Application Name
+(default is "eb"): eb
+Application eb has been created.
+
+
+5.Select a platform that matches the language or framework that your web application is developed in. If you haven't started developing an application yet, choose a platform that you are interested in. 
+
+Select a platform.
+1) Node.js
+2) PHP
+3) Python
+4) Ruby
+5) Tomcat
+6) IIS
+7) Docker
+8) Multi-container Docker
+9) GlassFish
+10) Go
+11) Java
+(default is 1): 1
+
+
+6.Choose yes to assign an SSH key pair to the instances in your Elastic Beanstalk environment, 
+ allowing you to connect directly to them for troubleshooting.
+ 
+ Do you want to set up SSH for your instances?
+(y/n): y
+
+7.Choose an existing key pair or create a new one. To use eb init to create a new key pair, you must have ssh-keygen installed on your local machine and available from the command line. The CLI registers the new key pair with Amazon EC2 for you and stores the private key locally in a folder named .ssh in your user directory.
+
+Select a keypair.
+1) [ Create new KeyPair ]
+(default is 1): 1
+
+
+Deploying an Artifact Instead of the Project Folder
+-----------------------------------------------------------
+EB CLI to deploy a ZIP or WAR file that you generate as part of a separate build process by adding the following lines to .elasticbeanstalk/config.yml in your project folder.
+
+deploy:
+  artifact: path/to/<buildartifact>.zip
+ or 
+deploy:
+  artifact: target/<demo-0.0.1-SNAPSHOT>.jar
+  
+  
+ Elastic Beanstalk Service Role
+----------------------------------
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "elasticloadbalancing:DescribeInstanceHealth",
+        "ec2:DescribeInstances",
+        "ec2:DescribeInstanceStatus",
+        "ec2:GetConsoleOutput",
+        "ec2:AssociateAddress",
+        "ec2:DescribeAddresses",
+        "ec2:DescribeSecurityGroups",
+        "sqs:GetQueueAttributes",
+        "sqs:GetQueueUrl",
+        "autoscaling:DescribeAutoScalingGroups",
+        "autoscaling:DescribeAutoScalingInstances",
+        "autoscaling:DescribeScalingActivities",
+        "autoscaling:DescribeNotificationConfigurations"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}
+
+
+
+================================================================ 
+Managing Elastic Beanstalk Environments with the EB CLI
+================================================================ 
+1. To create your first environment, run eb create and follow the prompts. If your project directory has source code in it, the EB CLI will bundle it up and deploy it to your environment. Otherwise, a sample application will be used.
+
+$ eb create
+Enter Environment Name
+(default is eb-dev): eb-dev
+Enter DNS CNAME prefix
+(default is eb-dev): eb-dev
+WARNING: The current directory does not contain any source code. Elastic Beanstalk is launching the sample application instead.
+Environment details for: elasticBeanstalkExa-env
+  Application name: elastic-beanstalk-example
+  Region: us-west-2
+  Deployed Version: Sample Application
+  Environment ID: e-j3pmc8tscn
+  Platform: 64bit Amazon Linux 2015.03 v1.4.3 running Docker 1.6.2
+  Tier: WebServer-Standard
+  CNAME: eb-dev.elasticbeanstalk.com
+  Updated: 2015-06-27 01:02:24.813000+00:00
+Printing Status:
+INFO: createEnvironment is starting.
+ -- Events -- (safe to Ctrl+C) Use "eb abort" to cancel the command.
+ 
+2.Run eb status to see the current status of your environment. When the status is ready, the sample application is available at elasticbeanstalk.com and the environment is ready to be updated.
+
+$ eb status
+Environment details for: elasticBeanstalkExa-env
+  Application name: elastic-beanstalk-example
+  Region: us-west-2
+  Deployed Version: Sample Application
+  Environment ID: e-gbzqc3jcra
+  Platform: 64bit Amazon Linux 2015.03 v1.4.3 running Docker 1.6.2
+  Tier: WebServer-Standard
+  CNAME: elasticbeanstalkexa-env.elasticbeanstalk.com
+  Updated: 2015-06-30 01:47:45.589000+00:00
+  Status: Ready
+  Health: Green
+  
+3.Use the eb health command to view health information about the instances in your environment and the state of your environment overall. Use the --refresh option to view health in an interactive view that updates every 10 seconds.
+
+~/eb$ eb health
+ api                                    Ok                 2016-09-15 18:39:04
+WebServer                                                               Java 8
+  total      ok    warning  degraded  severe    info   pending  unknown
+    3        3        0        0        0        0        0        0
+
+  instance-id           status     cause                                health
+    Overall             Ok
+  i-0ef05ec54918bf567   Ok
+  i-001880c1187493460   Ok
+  i-04703409d90d7c353   Ok
+
+  instance-id           r/sec    %2xx   %3xx   %4xx   %5xx      p99      p90      p75     p50     p10
+    Overall             8.6     100.0    0.0    0.0    0.0    0.083*   0.065    0.053   0.040   0.019
+  i-0ef05ec54918bf567   2.9        29      0      0      0    0.069*   0.066    0.057   0.050   0.023
+  i-001880c1187493460   2.9        29      0      0      0    0.087*   0.069    0.056   0.050   0.034
+  i-04703409d90d7c353   2.8        28      0      0      0    0.051*   0.027    0.024   0.021   0.015
+
+  instance-id           type       az   running     load 1  load 5      user%  nice%  system%  idle%   iowait%
+  i-0ef05ec54918bf567   t2.micro   1c   23 mins       0.19    0.05        3.0    0.0      0.3   96.7       0.0
+  i-001880c1187493460   t2.micro   1a   23 mins        0.0     0.0        3.2    0.0      0.3   96.5       0.0
+  i-04703409d90d7c353   t2.micro   1b   1 day          0.0     0.0        3.6    0.0      0.2   96.2       0.0
+
+  instance-id           status     id   version                  ago                                deployments
+  i-0ef05ec54918bf567   Deployed   28   app-bc1b-160915_181041   20 mins
+  i-001880c1187493460   Deployed   28   app-bc1b-160915_181041   20 mins
+  i-04703409d90d7c353   Deployed   28   app-bc1b-160915_181041   27 mins
+
+4.Use eb events to see a list of events output by Elastic Beanstalk.
+~/eb$ eb events
+2015-06-29 23:21:09    INFO    createEnvironment is starting.
+2015-06-29 23:21:10    INFO    Using elasticbeanstalk-us-west-2-EXAMPLE as Amazon S3 storage bucket for environment data.
+2015-06-29 23:21:23    INFO    Created load balancer named: awseb-e-g-AWSEBLoa-EXAMPLE
+2015-06-29 23:21:42    INFO    Created security group named: awseb-e-gbzqc3jcra-stack-AWSEBSecurityGroup-EXAMPLE
+2015-06-29 23:21:45    INFO    Created Auto Scaling launch configuration named: awseb-e-gbzqc3jcra-stack-AWSEBAutoScalingLaunchConfiguration-EXAMPLE
+...
+
+5.Use eb logs to pull logs from an instance in your environment. By default, eb logs pull logs from the first instance launched and displays them in standard output. You can specify an instance ID with the --instance option to get logs from a specific instance.
+
+The --all option pulls logs from all instances and saves them to subdirectories under .elasticbeanstalk/logs.
+
+$ eb logs --all
+Retrieving logs...
+Logs were saved to /home/local/ANT/mwunderl/ebcli/environments/test/.elasticbeanstalk/logs/150630_201410
+Updated symlink at /home/local/ANT/mwunderl/ebcli/environments/test/.elasticbeanstalk/logs/latest
+
+
+6.To open your environment's website in a browser, use eb open:
+
+$ eb open
+
+.Take a look at the configuration options available for your running environment with the eb config command:
+$ eb config
+ApplicationName: elastic-beanstalk-example
+DateUpdated: 2015-06-30 02:12:03+00:00
+EnvironmentName: elasticBeanstalkExa-env
+SolutionStackName: 64bit Amazon Linux 2015.03 v1.4.3 running Docker 1.6.2
+settings:
+ ......................
+ ......................
+
+.use eb terminate to terminate it.
+$ eb terminate
+The environment "eb-dev" and all associated instances will be terminated.
+To confirm, type the environment name: eb-dev
+INFO: terminateEnvironment is starting.................
+  
+
+
+
+ 
