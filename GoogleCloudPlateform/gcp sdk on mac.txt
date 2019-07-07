@@ -1,0 +1,29 @@
+
+# gcloud cmds reference 
+https://cloud.google.com/sdk/gcloud/reference/
+
+#To download the sdk form google server
+$ curl https://sdk.cloud.google.com | bash
+
+#To Restart your shell:
+$ exec -l $SHELL
+
+#To initialize the gcloud environment:
+$ gcloud init
+
+#To get the gcloud version 
+$ gcloud version
+
+#To get the cmd help 
+$ gcloud -h 
+
+#To get the gcloud information  
+$ gcloud info
+
+#To login into the gcp from browser authentication.
+$ gcloud auth login 
+
+#To logout from gcloud 
+$ gcloud auth revoke --all
+or 
+$ gcloud auth revoke <your_account>
