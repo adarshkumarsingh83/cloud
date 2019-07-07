@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/employee-producer.iml" filepath="$PROJECT_DIR$/employee-producer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/springboot-employee-mysql.iml" filepath="$PROJECT_DIR$/springboot-employee-mysql.iml" />
-    </modules>
-  </component>
-</project>

@@ -1,13 +1,7 @@
-
-## Step by step process to install the spring boot app to pcf and access that 
-https://www.javainuse.com/pcf/pcf-hello
-
-PCF applications
-https://www.javainuse.com/pcf
-
-
 #PCF command documentation 
 http://cli.cloudfoundry.org/en-US/cf/
+
+https://docs.cloudfoundry.org/cf-cli/cf-help.html
 
 # to validate the installation 
 $ cf help
@@ -50,5 +44,7 @@ $ cf delete <APP_NAME> [-r] [-f]
 Force deletion without confirmation
 -r
 Also delete any mapped routes
+
+
 
 
