@@ -6,6 +6,12 @@ project name =  xxxxx
 -> create 
 NOte copy the project id 
 
+#To link project to the google cli 
+$ gcloud config set project PROJECT_ID
+
+#To Install the kubernate in the google cloud 
+$ gcloud components install kubectl
+
 @Enable the Api 
 Dashboard -> Api Manger-> Container Engine Api ->  Enable 
 
