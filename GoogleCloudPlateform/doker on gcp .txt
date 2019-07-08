@@ -29,6 +29,18 @@ $ gcloud components install kubectl
 
 @Enable the Api 
 Dashboard -> Api Manger-> Container Engine Api ->  Enable 
+or 
+#To enable the api 
+$  gcloud services enable <compute.googleapis.com>
+
+#To enable the api 
+$  gcloud services enable <sqladmin.googleapis.com>
+
+#To disable the api 
+$ gcloud services disable <service name>
+
+#To list the service 
+$  gcloud services list 
 
 ------------------------------------------------------------
 #To login into the gcloud 
