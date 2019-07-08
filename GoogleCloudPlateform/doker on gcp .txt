@@ -73,6 +73,15 @@ $ gcloud container clusters create <cluster name>
 ##To View on web dashboard 
 side bar -> container engine -> container cluster 
 
+#To Discribe the cluster on gcp 
+$ gcloud container clusters describe <cluster name> 
+
+#To delete the cluster in gcp 
+$ gcloud container clusters delete <cluster name>
+
+#To list the clusters 
+$ gcloud container clusters list
+
 #To Execute and run the docker image on the cluster 
 $ kubectl run <cluster name> --image=adarshkumarsingh83/springboot-docker-sample:latest --port=8080
  or 
