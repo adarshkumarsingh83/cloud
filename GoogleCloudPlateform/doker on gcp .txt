@@ -1,0 +1,89 @@
+Note 
+google cloud sdk is already install 
+
+project dash board -> create project 
+project name =  xxxxx
+-> create 
+NOte copy the project id 
+
+@Enable the Api 
+Dashboard -> Api Manger-> Container Engine Api ->  Enable 
+
+------------------------------------------------------------
+#To login into the gcloud 
+$ gcloud init 
+
+Q1 would you like to login y|n -> y 
+
+Q2 pick cloud project to use:
+[1]  xxxs
+[2]  xxxx
+enter the numeric choice -> 1
+
+Q3 do you want to configure it y|n -> y 
+
+Q4 which google compute region 
+[1] xxxx
+[2] xxxx
+ ......
+enter the numeric choice -> 1
+------------------------------------------------------------
+crete the application and the doker image out of that 
+
+# crate a docker tag 
+$ docker build -t adarshkumarsingh83/springboot-docker-sample:latest . 
+
+Note or either of docker hub or gcr 
+# push the image to the docker hub 
+$ docker push adarshkumarsingh83/springboot-docker-sample:latest
+
+# push the image to the goole cloud registry 
+$ docker push gcr.io/adarshkumarsingh83/springboot-docker-sample:latest
+##To View on web dashboard 
+side bar -> container engine -> container registry 
+
+
+#Crate a cluster in gcp 
+$ gcloud container clusters create <cluster name>
+##To View on web dashboard 
+side bar -> container engine -> container cluster 
+
+#To Execute and run the docker image on the cluster 
+$ kubectl run <cluster name> --image=adarshkumarsingh83/springboot-docker-sample:latest --port=8080
+ or 
+$ kubectl run <cluster name> --image=gcr.io/adarshkumarsingh83/springboot-docker-sample:latest --port=8080
+
+#To list the deployments 
+$ kubectl get deployment 
+
+#To list the group of containers and its configurations  
+$ kubectl get pods
+
+#to get the information about he cluster 
+$ kubectl cluster-info 
+
+#To expose the deployment to the public network 
+$ kubectl expose deployment <cluster-name> --type="LoadBalancer" 
+
+#to get the public ip of accessing the application 
+NOte: this will return the lb ip 
+$ kubectl get services <cluster-name>
+
+#To access the application 
+$ curl <public ip >:<port>/url 
+
+#To Scale up the application 
+$ kubectl scale deployment <cluster-name> --replicas=4 
+
+
+
+
+
+
+
+
+
+
+
+
+

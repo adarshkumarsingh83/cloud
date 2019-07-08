@@ -27,3 +27,11 @@ $ gcloud auth login
 $ gcloud auth revoke --all
 or 
 $ gcloud auth revoke <your_account>
+
+#To list the gcloud components 
+$ gcloud components list 
+
+#To install gcloud components 
+$ gcloud components install <component id > 
+$ gcloud components install kubectl
+
