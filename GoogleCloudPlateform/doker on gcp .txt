@@ -32,13 +32,15 @@ crete the application and the doker image out of that
 
 # crate a docker tag 
 $ docker build -t adarshkumarsingh83/springboot-docker-sample:latest . 
+or tag for gcr 
+$ docker tag <alias-name> gcr.io/<project_id>/<docker image name>
 
 Note or either of docker hub or gcr 
 # push the image to the docker hub 
 $ docker push adarshkumarsingh83/springboot-docker-sample:latest
 
-# push the image to the goole cloud registry 
-$ docker push gcr.io/adarshkumarsingh83/springboot-docker-sample:latest
+# push the image to the google cloud registry 
+$ docker push gcr.io/<project_id>/springboot-docker-sample
 ##To View on web dashboard 
 side bar -> container engine -> container registry 
 
@@ -51,7 +53,7 @@ side bar -> container engine -> container cluster
 #To Execute and run the docker image on the cluster 
 $ kubectl run <cluster name> --image=adarshkumarsingh83/springboot-docker-sample:latest --port=8080
  or 
-$ kubectl run <cluster name> --image=gcr.io/adarshkumarsingh83/springboot-docker-sample:latest --port=8080
+$ kubectl run <cluster name> --image=gcr.io/<project_id>/springboot-docker-sample --port=8080
 
 #To list the deployments 
 $ kubectl get deployment 
