@@ -6,8 +6,23 @@ project name =  xxxxx
 -> create 
 NOte copy the project id 
 
+#To Create a project in gcp 
+$ gcloud projects create [OWN PROJECT_ID] --name <project name> --labels=[KEY=VALUE,…]
+
+#To List the projects in gcp 
+$ gcloud projects list
+
+#To Delete the project in gcp 
+$ gcloud projects delete <PROJECT_ID>
+
 #To link project to the google cli 
-$ gcloud config set project PROJECT_ID
+$ gcloud config set project <PROJECT_ID>
+
+#To Update the project on google cli 
+$ gcloud projects update <PROJECT_ID> --name=<NAME>
+
+#To Discribe the project 
+$ gcloud projects describe <PROJECT_ID>
 
 #To Install the kubernate in the google cloud 
 $ gcloud components install kubectl
