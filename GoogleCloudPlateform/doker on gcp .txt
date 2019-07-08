@@ -7,7 +7,7 @@ project name =  xxxxx
 NOte copy the project id 
 
 #To Create a project in gcp 
-$ gcloud projects create [OWN PROJECT_ID] --name <project name> --labels=[KEY=VALUE,…]
+$ gcloud projects create <OWN PROJECT_ID> --name <project name> --labels=[KEY=VALUE,…]
 
 #To List the projects in gcp 
 $ gcloud projects list
@@ -61,10 +61,12 @@ Note or either of docker hub or gcr
 $ docker push adarshkumarsingh83/springboot-docker-sample:latest
 
 # push the image to the google cloud registry 
-$ docker push gcr.io/<project_id>/springboot-docker-sample
+$ docker push gcr.io/<project_id>/springboot-docker-sample:latest
 ##To View on web dashboard 
 side bar -> container engine -> container registry 
 
+#pull the image from the google cloud registry 
+$ gcloud docker -- pull gcr.io/<project_id>/springboot-docker-sample:latest
 
 #Crate a cluster in gcp 
 $ gcloud container clusters create <cluster name>
