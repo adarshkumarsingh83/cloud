@@ -24,6 +24,9 @@ $ gcloud projects update <PROJECT_ID> --name=<NAME>
 #To Discribe the project 
 $ gcloud projects describe <PROJECT_ID>
 
+#To view the current config 
+$ gcloud config list 
+
 #To Install the kubernate in the google cloud 
 $ gcloud components install kubectl
 
