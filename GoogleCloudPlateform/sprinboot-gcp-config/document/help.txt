@@ -1,0 +1,25 @@
+#To enable the gcp config service
+$ gcloud services enable runtimeconfig.googleapis.com
+
+#To Create a configuration Service
+$ gcloud beta runtime-config configs create espark_cloud
+
+#To set the key and value in espark_cloud config in gcp
+$ gcloud beta runtime-config configs variables set wish  "Welcome To Espark From GCP"  --config-name espark_cloud
+
+or
+set in the list
+$ gcloud beta runtime-config configs variables list --config-name=espark_cloud
+
+
+$ curl http://localhost:8080/greeting
+> Welcome To Espark From GCP
+
+
+$ gcloud beta runtime-config configs variables set wish  "Hi Espark"  --config-name espark_cloud
+
+$ curl -H"content-type: application/json" -d{} http://localhost:8080/actuator/refresh
+
+$ curl http://localhost:8080/greeting
+> Hi Espark
+

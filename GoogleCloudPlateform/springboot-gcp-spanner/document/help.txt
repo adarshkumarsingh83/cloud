@@ -1,0 +1,31 @@
+$ mvn clean package
+
+#To enable service in gcp
+$ gcloud services enable spanner.googleapis.com
+
+
+#To create new spanner instance on gcp
+$ gcloud spanner instances create employee --config=regional-us-central1 --nodes=1 --description="employee details"
+
+
+#To create db instance
+$ gcloud spanner databases create employee --instance=employee
+
+
+#To list the spanners instace
+$ gcloud spanner databases list --instance=employee
+
+
+$ vi schema.ddl
+---------------------------------
+CREATE TABLE employee (
+  id        STRING (36) NOT NULL,
+  name      STRING (255) NOT NULL
+) PRIMARY KEY (id );
+---------------------------------
+
+
+#To register schema with db
+$ gcloud spanner databases ddl update employee --instance=employee --ddl="$(/springboot-gcp-spanner/src/main/resources/vi schema.ddl )"
+or
+gcloud spanner databases ddl update employee --instance=employee --ddl="$(cat ./springboot-gcp-spanner/src/main/resources/db/schema.ddl )"

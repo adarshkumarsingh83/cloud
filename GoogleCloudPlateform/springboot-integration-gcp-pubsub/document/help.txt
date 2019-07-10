@@ -1,0 +1,11 @@
+#To Enable the pubsub on gcp
+$ gcloud services enable pubsub.googleapis.com
+
+
+#To Create a topic on gcp
+$ gcloud pubsub topics create espark
+
+
+#To Create a subscription on gcp
+$ gcloud pubsub subscriptions create espark-subscription --topic=espark
+
