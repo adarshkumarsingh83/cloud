@@ -1,0 +1,9 @@
+# To create a bucket on gcp
+$ BUCKET=spring-bucket-$USER
+$ gsutil makebucket gs://$BUCKET
+
+#To upload the file to bucket on gcp
+$ gsutil copy my-file.txt gs://$BUCKET
+
+#To get the content of the file
+$ curl -d 'new message' -H 'Content-Type: text/plain' localhost:8080

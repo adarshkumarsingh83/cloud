@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.espark.adarsh</groupId>
-	<artifactId>springboot-gcp-mysql</artifactId>
+	<artifactId>springboot-gcp-mysql-jpa</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>springboot-gcp-mysql</name>
 	<description>Demo project for Spring Boot gcp mysql</description>
@@ -26,13 +26,18 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-gcp-starter-sql-mysql</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-gcp-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-gcp-starter-sql-postgresql</artifactId>
 		</dependency>
 
 		<dependency>

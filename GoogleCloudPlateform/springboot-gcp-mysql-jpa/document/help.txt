@@ -1,0 +1,8 @@
+#To enable the service in gcp
+$ gcloud services enable sqladmin.googleapis.com
+
+$ To create sql instance in gcp
+$ gcloud sql instances create epsark --region=us-central1
+
+#To create db in gcp
+$ gcloud sql databases create epsark --instance epsark
