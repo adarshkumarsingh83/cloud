@@ -1,0 +1,30 @@
+
+#To Create a sql instance on gcp 
+$ gcloud sql instances create <instance-name> --tier=db-f1-micro --authorized-networks=0.0.0.0/0 --region=europe-west1
+
+#To Create a Sql User 
+$ gcloud beta sql users create <user-name> --instance=<instance-name> --password=<user-pwd>
+
+
+
+Note down the IP address of the instance, your username and password. You'll need this information later!
+
+#To Connect to the instance
+$ gcloud sql connect <instance-name> --user=root
+
+#To Create a db 
+$ mysql> CREATE DATABASE <db-name>;
+
+#granting permission to the root user 
+mysql> GRANT ALL PRIVILEGES ON <db-name>.* TO 'root'@'%' IDENTIFIED BY 'PASSWORD';
+
+#To Download the sql zip script from github 
+$ wget https://github.com/adarshkumarsingh83/cloud/tree/master/GoogleCloudPlateform -O sqlfile.zip
+
+#To unzip the zip file 
+$ unzip sqlfile.zip && cd sql_script
+
+#To execute the sql script to the instance 
+$ gcloud sql connect <instance-name> --user=root < employees.sql
+
+mysql> exit;
