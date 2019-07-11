@@ -19,7 +19,9 @@ $ mysql> CREATE DATABASE <db-name>;
 mysql> GRANT ALL PRIVILEGES ON <db-name>.* TO 'root'@'%' IDENTIFIED BY 'PASSWORD';
 
 #To Download the sql zip script from github 
-$ wget https://github.com/adarshkumarsingh83/cloud/tree/master/GoogleCloudPlateform -O sqlfile.zip
+$ wget -O  https://github.com/adarshkumarsingh83/cloud/tree/master/GoogleCloudPlateform/sqlfile.zip 
+#for mac os to test it locally 
+$ curl -O https://github.com/adarshkumarsingh83/cloud/tree/master/GoogleCloudPlateform/sqlfile.zip
 
 #To unzip the zip file 
 $ unzip sqlfile.zip && cd sql_script
