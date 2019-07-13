@@ -1,0 +1,5 @@
+name: springboot-rabbitmq
+path: target/springboot-rabbitmq.jar
+memory: 1G
+services:
+  - espark-amqp
