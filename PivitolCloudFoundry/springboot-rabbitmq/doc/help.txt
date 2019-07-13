@@ -1,0 +1,29 @@
+rabbitmq mgmt console
+http://localhost:15672/
+guest/guest
+
+#to build the application
+$ mvn clean package
+
+#To build and tag the application
+$ docker build . -t springboot-rabbitmq-docker
+
+#To bring the docker compose application
+$ docker-compose up
+
+
+#To bring down the docker compose
+$ docker-compose down
+
+$ curl -d  '{"messageId":"1","sender":"adarsh kumar","data":"love u radha"}' -H "Content-Type: application/json" -X POST
+ http://localhost:8080/message
+
+GET
+$ curl http://localhost:8080/message
+
+#To list the container process of docker
+$ docker ps
+
+#To stop the docker container
+$ docker stop <process id >
+
