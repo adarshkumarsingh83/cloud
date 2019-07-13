@@ -1,0 +1,23 @@
+version: "3.2"
+services:
+  mongodb:
+    image: mongo:3.2.4
+    container_name: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - $HOME/data/springboot-mongo-data:/data/db
+      - $HOME/data/springboot-mongo-bkp:/data/bkp
+    restart: always
+
+  springboot-mongodb:
+    build: .
+    environment:
+      - MONGOCLIENT_DEFAULT_CONNECTION_URL=mongodb://mongo:27017/employee
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+    ports:
+      - 8080:8080
+

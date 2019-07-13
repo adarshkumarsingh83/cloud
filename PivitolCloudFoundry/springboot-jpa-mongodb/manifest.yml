@@ -1,0 +1,5 @@
+name: springboot-mongodb
+path: target/springboot-mongodb.jar
+memory: 1G
+services:
+  - espark-mongodb

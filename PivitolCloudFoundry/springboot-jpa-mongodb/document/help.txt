@@ -1,0 +1,104 @@
+#to find the pid on the port
+$ sudo lsof -i :<port no>
+$ sudo kill -9 <pid>
+
+#To build the application
+$ mvn clean package
+
+-----------------------------------------------------------------------------------------------------------------------
+pcf deployment process
+-----------------------------------------------------------------------------------------------------------------------
+
+#Sign in to PWS:
+$ cf login -a https://api.run.pivotal.io
+
+#Create a space
+$ cf create-space <SPACE_NAME> [-o ORG] [-q SPACE_QUOTA]
+$ cf create-space espark-space -o espark-adarsh
+
+#Target the space of the pcf
+$ cf target [-o ORG] -s <SPACE_NAME>
+$ cf target -o espark-adarsh -s espark-space
+
+#to list the services
+$ cf marketplace
+
+#To create rabbit mq
+$ cf create-service mlab sandbox espark-mongodb
+
+#To view the service
+$ cf services
+
+To push the application
+$ cf push
+
+#To list the apps in PCF
+$ cf apps
+
+#To Bind the service with application
+$ cf bind-service springboot-mongodb espark-mongodb
+
+
+#To test the api
+$ curl -d '{"id":"1","name":"adarsh","email":"adarsh@kumar"}' -H "Content-Type: application/json" -X POST https://springboot-mongodb.cfapps.io/api/employee
+
+$ curl -d '{"id":"2","name":"radha","email":"radha@singh"}' -H "Content-Type: application/json" -X POST https://springboot-mongodb.cfapps.io/api/employee
+
+#To get data
+$ curl https://springboot-mongodb.cfapps.io/api/employee
+
+#To update data
+$ curl -d '{"id": 1,"name": "adarsh","email": "adarsh@kumar.singh"}'  -H "Content-Type: application/json" -X PUT https://springboot-mongodb.cfapps.io/api/employee/1
+
+#To Delete data
+$ curl -X DELETE https://springboot-mongodb.cfapps.io/api/employee/1
+
+
+#To View the logs
+$ cf logs springboot-mongodb --recent
+
+#To Unbind the servcie
+$ cf unbind-service springboot-mongodb espark-mongodb
+
+#To delete mongodb
+$ cf delete-service espark-mongodb
+
+#To delete the application
+$ cf delete -r springboot-mongodb
+
+#To delete the space
+$ cf delete-space <SPACE_NAME> [-o ORG]
+$ cf delete-space  espark-space -o espark-adarsh
+
+#logout from PWS
+$ cf logout
+
+-----------------------------------------------------------------------------------------------------------------------
+docker process
+-----------------------------------------------------------------------------------------------------------------------
+#To build the docker image
+$ docker-compose up
+
+#To test the api
+$ curl -d '{"id":"1","name":"adarsh","email":"adarsh@kumar"}' -H "Content-Type: application/json" -X POST http://localhost:8080/api/employee
+
+$ curl -d '{"id":"2","name":"radha","email":"radha@singh"}' -H "Content-Type: application/json" -X POST http://localhost:8080/api/employee
+
+#To get data
+$ curl http://localhost:8080/api/employee
+
+#To update data
+$ curl -d '{"id": 1,"name": "adarsh","email": "adarsh@kumar.singh"}'  -H "Content-Type: application/json" -X PUT http://localhost:8080/api/employee/1
+
+#To Delete data
+$ curl -X DELETE http://localhost:8080/api/employee/1
+
+#To stop the docker
+$ docker-compose down
+
+#to list the docker process
+$ docker ps
+
+#to kill process
+$ docker stop <process id>
+-----------------------------------------------------------------------------------------------------------------------
