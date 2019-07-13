@@ -29,8 +29,8 @@ $ cf target -o espark-adarsh -s espark-space
 #to list the services
 $ cf marketplace
 
-#To create rabbit mq
-$ cf create-service cleardb spark espark-mysqldb
+#To create postgressqsl
+$ cf create-service elephantsql turtle espark-postgresql
 
 #To view the service
 $ cf services
@@ -42,31 +42,33 @@ $ cf push
 $ cf apps
 
 #To Bind the service with application
-$ cf bind-service springboot-mysql espark-mysqldb
+$ cf bind-service springboot-postgresql espark-postgresql
+
+#To view the configuration
+$ cf env espark-postgresql
 
 ####To Test the application####
-$ curl -d  '{"empId":100,"empName":"adarsh kumar"}' -H "Content-Type: application/json" -X POST https://springboot-mysql
-.cfapps.io/employee
+$ curl -d  '{"empId":100,"empName":"adarsh kumar"}' -H "Content-Type: application/json" -X POST https://springboot-postgresql.cfapps.io/employee
 
 GET
-$ curl https://springboot-mysql.cfapps.io/employees
+$ curl https://springboot-postgresql.cfapps.io/employees
 
 GET
-$ curl https://springboot-mysql.cfapps.io/employee/100
+$ curl -X GET https://springboot-postgresql.cfapps.io/employee/100
 
 ###############################
 
 #To View the logs
-$ cf logs springboot-mysql --recent
+$ cf logs springboot-postgresql --recent
 
-#To Unbind the servcie
-$ cf unbind-service springboot-mysql espark-mysql
+#To Unbind the service
+$ cf unbind-service springboot-postgresql espark-postgresql
 
-#To delete espark-mysql
-$ cf delete-service espark-mysql
+#To delete postgressql
+$ cf delete-service espark-postgresql
 
 #To delete the application
-$ cf delete -r springboot-mysql
+$ cf delete -r springboot-postgresql
 
 #To delete the space
 $ cf delete-space <SPACE_NAME> [-o ORG]

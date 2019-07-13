@@ -1,0 +1,5 @@
+name: springboot-postgresql
+path: target/springboot-postgresql.jar
+memory: 1G
+services:
+  - espark-postgresql
