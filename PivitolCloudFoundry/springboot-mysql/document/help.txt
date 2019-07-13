@@ -1,0 +1,77 @@
+$ mvn clean package
+
+Start MySQL
+sudo /usr/local/mysql/support-files/mysql.server start
+
+Stop MySQL
+sudo /usr/local/mysql/support-files/mysql.server stop
+
+Restart MySQL
+sudo /usr/local/mysql/support-files/mysql.server restart
+
+$ curl localhost:8080/employee
+
+========================================================================================================================
+DEPLOYMENT IN TO THE PCF
+------------------------------------------------------------------------------------------------------------------------
+
+#Sign in to PWS:
+$ cf login -a https://api.run.pivotal.io
+
+#Create a space
+$ cf create-space <SPACE_NAME> [-o ORG] [-q SPACE_QUOTA]
+$ cf create-space espark-space -o espark-adarsh
+
+#Target the space of the pcf
+$ cf target [-o ORG] -s <SPACE_NAME>
+$ cf target -o espark-adarsh -s espark-space
+
+#to list the services
+$ cf marketplace
+
+#To create rabbit mq
+$ cf create-service cleardb spark espark-mysqldb
+
+#To view the service
+$ cf services
+
+To push the application
+$ cf push
+
+#To list the apps in PCF
+$ cf apps
+
+#To Bind the service with application
+$ cf bind-service springboot-mysql espark-mysqldb
+
+####To Test the application####
+$ curl -d  '{"empId":1,"empName":"adarsh kumar"}' -H "Content-Type: application/json" -X POST https://springboot-mysql.cfapps.io/employee
+
+GET
+$ curl https://springboot-mysql.cfapps.io/employees
+
+GET
+$ curl https://springboot-mysql.cfapps.io/employee/1
+
+###############################
+
+#To View the logs
+$ cf logs springboot-mysql --recent
+
+#To Unbind the servcie
+$ cf unbind-service springboot-mysql espark-mysql
+
+#To delete espark-mysql
+$ cf delete-service espark-mysql
+
+#To delete the application
+$ cf delete -r springboot-mysql
+
+#To delete the space
+$ cf delete-space <SPACE_NAME> [-o ORG]
+$ cf delete-space  espark-space -o espark-adarsh
+
+#logout from PWS
+$ cf logout
+
+========================================================================================================================

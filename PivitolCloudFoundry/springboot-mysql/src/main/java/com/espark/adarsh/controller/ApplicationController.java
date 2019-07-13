@@ -23,7 +23,7 @@ public class ApplicationController {
         return this.employeeService.getEmployee(id);
     }
 
-    @RequestMapping(value = "/employee", method = RequestMethod.GET)
+    @RequestMapping(value = "/employees", method = RequestMethod.GET)
     public List<Employee> getEmployees() {
         return this.employeeService.getAllEmployee();
     }
@@ -38,7 +38,7 @@ public class ApplicationController {
         return this.employeeService.deleteEmployee(id);
     }
 
-    @RequestMapping(value = "/employee", method = RequestMethod.PUT)
+    @RequestMapping(value = "/employee", method = RequestMethod.POST)
     public Employee createEmployee(@RequestBody Employee employee) {
         return this.employeeService.saveEmployee(employee);
     }

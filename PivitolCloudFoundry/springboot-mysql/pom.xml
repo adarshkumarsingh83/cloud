@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.espark.adarsh</groupId>
-	<artifactId>springboot-employee-mysql</artifactId>
+	<artifactId>springboot-mysql</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -49,6 +49,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>springboot-mysql</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

@@ -1,0 +1,5 @@
+name: springboot-mysql
+path: target/springboot-mysql.jar
+memory: 1G
+services:
+  - espark-mysqldb
