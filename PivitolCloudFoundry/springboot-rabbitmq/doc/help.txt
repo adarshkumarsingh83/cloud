@@ -57,12 +57,18 @@ $ cf apps
 #To Bind the service with application
 $ cf bind-service springboot-rabbitmq espark-amqp
 
-
+####To Test the application####
 $ curl -d  '{"messageId":"1","sender":"adarsh kumar","data":"love u radha"}' -H "Content-Type: application/json" -X POST
   https://springboot-rabbitmq.cfapps.io/message
 
 GET
 $ curl https://springboot-rabbitmq.cfapps.io//message
+
+###############################
+
+#To View the logs
+$ cf logs springboot-rabbitmq --recent
+
 
 #To Unbind the servcie
 $ cf unbind-service springboot-rabbitmq espark-amqp
