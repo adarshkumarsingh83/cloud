@@ -1,9 +1,11 @@
 # cloud
 AmazoneWebService (aws) / GoogleCloudPlateform (gcp)/ PivitolCloudFoundry (pfc)
 
-1.vm creation using cli 
-2.spring based applications deployment process 
-3.testing building 
-4.cmd and description 
-5.installation process step by step 
+0.nstallation process step by step 
+1.account creation 
+2.vm creation using cli 
+3.spring based applications deployment process 
+4.testing building 
+5.cmd and description 
+
 
