@@ -1,0 +1,75 @@
+
+
+$ mvn clean package
+
+========================================================================================================================
+DEPLOYMENT IN TO THE PCF
+------------------------------------------------------------------------------------------------------------------------
+
+#Sign in to PWS:
+$ cf login -a https://api.run.pivotal.io
+
+#Create a space
+$ cf create-space <SPACE_NAME> [-o ORG] [-q SPACE_QUOTA]
+$ cf create-space espark-space -o espark-adarsh
+
+#Target the space of the pcf
+$ cf target [-o ORG] -s <SPACE_NAME>
+$ cf target -o espark-adarsh -s espark-space
+
+#to list the services
+$ cf marketplace
+
+#To create elasticsearch
+$ cf create-service searchly small espark-elasticsearch
+
+#To view the service
+$ cf services
+
+To push the application
+$ cf push
+
+#To list the apps in PCF
+$ cf apps
+
+#To Bind the service with application
+$ cf bind-service springboot-elasticsearch espark-elasticsearch
+
+####To Test the application####
+
+POST
+$ curl -d '{"id":100,"firstName":"adarsh","lastName":"Kumar"}' -H "Content-Type: application/json" -X POST https://springboot-elasticsearch.cfapps.io/person
+
+GET
+$ curl -X GET https://springboot-elasticsearch.cfapps.io/person/100
+
+PUT
+$ curl -d '{"id":100,"firstName":"adarsh","lastName":"Kumar Singh"}' -H "Content-Type: application/json" -X PUT https://springboot-elasticsearch.cfapps.io/person/100
+
+GET
+$ curl -X GET https://springboot-elasticsearch.cfapps.io/persons
+
+DELETE
+$ curl -X DELETE https://springboot-elasticsearch.cfapps.io/person/100
+
+###############################
+
+#To View the logs
+$ cf logs springboot-elasticsearch --recent
+
+#To Unbind the servcie
+$ cf unbind-service springboot-elasticsearch espark-elasticsearch
+
+#To delete espark-elasticsearch
+$ cf delete-service espark-elasticsearch
+
+#To delete the application
+$ cf delete -r springboot-elasticsearch
+
+#To delete the space
+$ cf delete-space <SPACE_NAME> [-o ORG]
+$ cf delete-space  espark-space -o espark-adarsh
+
+#logout from PWS
+$ cf logout
+========================================================================================================================

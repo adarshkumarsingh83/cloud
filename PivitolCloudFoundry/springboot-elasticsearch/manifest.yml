@@ -1,0 +1,5 @@
+name: springboot-elasticsearch
+path: target/springboot-elasticsearch.jar
+memory: 1G
+services:
+  - espark-elasticsearch
