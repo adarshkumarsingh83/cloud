@@ -1,9 +1,9 @@
 # cloud
 AmazoneWebService (aws) / GoogleCloudPlateform (gcp)/ PivitolCloudFoundry (pfc)
 
-vm creation using cli 
+1.vm creation using cli 
 
-applications deploymenet process 
+2.applications deploymenet process 
 
-testing building 
+3.testing building 
 
