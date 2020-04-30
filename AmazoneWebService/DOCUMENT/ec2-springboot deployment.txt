@@ -1,0 +1,36 @@
+Note: to enable Custom tcp with 8080 port in security tab with access anywhere option 
+
+$ chmod 400 adarsh.pem
+
+$ ssh -i "adarsh.pem" ec2-user@e<publid-ip>.us-east-2.compute.amazonaws.com
+
+#changing to the super user
+$ sudo -s 
+
+#updating the os 
+$ sudo yum update -y 
+
+$ sudo amazon-linux-extras enable corretto8
+
+$ sudo yum clean metadata
+
+$ sudo yum install -y java-1.8.0-amazon-corretto
+
+$ java -version
+
+$ mkdir application
+
+$ chmod 777 application 
+
+$ cd application
+
+$ scp -i <---xxx.pem---> <----SrcFileName--> ec2-user@<-----PUBLIC-DNS---->:/home/ec2-user/<--DestinationDir->/
+$ scp -i adarsh.pem springboot-espark.jar ec2-user@ec2-34-219-71-48.us-west-2.compute.amazonaws.com:/home/ec2-user/application/
+
+$ chmod 777 springboot-espark.jar 
+
+# To start the application 
+$ java -jar springboot-espark.jar 
+
+# To test service 
+$ curl http://34.219.71.48:8080/api/message
