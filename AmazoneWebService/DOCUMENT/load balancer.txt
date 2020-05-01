@@ -24,8 +24,11 @@ $ chmod 777 application
 
 $ cd application
 
+#Note spring application is in the programs dir in amazon java app
+springboot-web-rest
+
 $ scp -i <---xxx.pem---> <----SrcFileName--> ec2-user@<-----PUBLIC-DNS---->:/home/ec2-user/<--DestinationDir->/
-$ scp -i adarsh.pem springboot-espark.jar ec2-user@ec2-34-219-71-48.us-west-2.compute.amazonaws.com:/home/ec2-user/application/
+$ scp -i adarsh.pem springboot-web-rest.jar ec2-user@ec2-34-219-71-48.us-west-2.compute.amazonaws.com:/home/ec2-user/application/
 
 $ chmod 777 springboot-espark.jar 
 
@@ -39,6 +42,15 @@ $ curl http://34.219.71.48:8080/api/message
 1.select the instance right click on that 
 image-> create-image-> provide image name -> click on create image button 
 
+# create a new instance by selecting the instance backup 
+select -> my image -> rest process is same 
+
+# move inside the application dir 
+$ cd application
+
+#start the server inside 
+# To start the application 
+$ java -jar springboot-espark.jar 
 
 #Load balancer 
 #Create a classic load balancer 
