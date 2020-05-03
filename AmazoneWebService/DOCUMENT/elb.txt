@@ -1,0 +1,49 @@
+
+create a 2 instance with spring boot ami 
+and and configure the startup script in instance 
+
+goto load balancer -> create lb -> application lb ->
+
+step 1 configure lb 
+name => xxx
+scheme => internet facing for public availability 
+listener => protocol change to tcp port to 8080
+availability zone => wehre back end ec2 instance are present 
+
+step 2 security 
+  nothing to configure 
+
+step 3 configure security group 
+  => same as ec2 instance security group 
+
+step 4 configure target 
+ new target group 
+ type = instance 
+ protocal = tcp 
+ port = 8080
+ health check 
+  tcp 
+  path / 
+  Advance health check 
+   change the thresh hold to less like 2 so that it will come up early 
+   
+step 5 register target 
+ select ec2 instance and click on add to register 
+ 
+then review and create 
+ 
+ 
+DELETION PROCESS  
+delete the lb 
+delete the target groups 
+delte the instances 
+delte the security group 
+delte the key pair 
+ 
+ 
+
+
+
+
+
+

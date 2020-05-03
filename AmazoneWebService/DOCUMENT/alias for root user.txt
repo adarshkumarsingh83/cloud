@@ -1,0 +1,8 @@
+iam -> user -> add user ->provide user name 
+-> access type give both prog and console -> provide custom passport ->
+uncheck the requires pwd reset -> move to add permission 
+-> attach existing policy -> search for admin and select that -> tags 
+-> provide tag like project name and user group or teams or others ->
+-> review -> create user -> download csv for acess key and secret key 
+-> to user iam  -> dashbord -> on top their is url to login into the aws console 
+using the new user but customized the url to remember it 

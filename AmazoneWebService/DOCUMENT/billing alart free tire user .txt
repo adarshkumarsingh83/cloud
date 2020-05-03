@@ -1,0 +1,35 @@
+1.login into aws as root user and 
+ go  on user on right top corner -> bill dashboard -> billing preferences ->
+ 
+ Cost mgmt preferences 
+ select receive free user alert -> provide email for custom email other wise 
+ it will be send to root uer email id -> receive billing alart 
+ 
+ 
+we have to create alert for billing 
+
+Cloud watch -> billing -> Alarm -> billing alarm -> create alarm ->
+
+keep every things as usual but change the condition to the greater then 5 usd 
+
+move to next 
+select in alarm 
+create new topic 
+  provide the topic name = xxxx
+  email to receive = xxxxxx email id 
+  click on create topic 
+ 
+  
+move to next 
+ add description 
+    alarm name = xxxx
+    alarm description = xxxx 
+    
+ 
+move to next 
+   click on create alarm 
+   
+   
+   
+ 
+ 

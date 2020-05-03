@@ -1,0 +1,93 @@
+#updating the os 
+
+$ sudo -s 
+
+$ sudo yum update -y 
+
+$ sudo amazon-linux-extras enable corretto8
+
+$ sudo yum clean metadata
+
+$ sudo yum install -y java-1.8.0-amazon-corretto
+
+$ java -version
+
+$ mkdir application
+
+$ chmod 777 application 
+
+$ cd application
+
+#Open new Bash cmd and upload the jar file to the ec2 
+
+$ scp -i <---xxx.pem---> <----SrcFileName--> ec2-user@<-----PUBLIC-DNS---->:/home/ec2-user/<--DestinationDir->/
+$ scp -i adarsh.pem springboot-web-rest.jar ec2-user@ec2-34-219-71-48.us-west-2.compute.amazonaws.com:/home/ec2-user/application/
+
+$ chmod 777 springboot-web-rest.jar 
+
+# To start the application 
+$ java -jar springboot-espark.jar 
+
+# To test service 
+$ curl http://<host>:8080/api/message
+
+==========================================================================================
+
+$ vi /home/ec2-user/application/esparkspringboot.service
+-------------------------------------------------------------------------------------------
+[Unit]
+Description=esparkspringboot
+After=syslog.target
+
+[Service]
+User=ec2-user
+ExecStart= /home/ec2-user/application/execute.sh
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
+------------------------------------------------------------------------------------------
+$ chmod 777 /home/ec2-user/application/esparkspringboot.service
+
+
+$ vi /home/ec2-user/application/execute.sh
+------------------------------------------------------------------------------------------
+#!/bin/bash
+java -jar /home/ec2-user/application/springboot-web-rest.jar
+------------------------------------------------------------------------------------------
+$ chmod 777 /home/ec2-user/application/execute.sh 
+
+$ sudo cp /home/ec2-user/application/esparkspringboot.service /etc/systemd/system/
+$ sudo systemctl daemon-reload
+
+#create symbloic link 
+$ ln -s /home/ec2-user/application/springboot-web-rest.jar /etc/init.d/esparkspringboot
+
+$ systemctl enable esparkspringboot.service
+$ systemctl start esparkspringboot
+
+$ systemctl stop esparkspringboot
+
+# to check logs 
+$ systemctl -l status esparkspringboot
+
+
+#To add the service to startup 
+$ chkconfig --add esparkspringboot 
+$ chkconfig esparkspringboot on
+$ systemctl enable esparkspringboot.service
+
+#To validate service added to startup 
+$ chkconfig --list esparkspringboot
+
+==========================================================================================
+provide in the step 3 of the ec2 after creating from ami 
+
+cp /home/ec2-user/application/esparkspringboot.service /etc/systemd/system/
+systemctl daemon-reload
+enable esparkspringboot.service
+systemctl start esparkspringboot
+ln -s /home/ec2-user/application/springboot-web-rest.jar /etc/init.d/esparkspringboot
+chkconfig --add esparkspringboot 
+chkconfig esparkspringboot on
+==========================================================================================

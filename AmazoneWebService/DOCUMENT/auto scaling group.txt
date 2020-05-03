@@ -1,0 +1,99 @@
+create a 2 instance with spring boot ami 
+and and configure the startup script in instance 
+
+==========================================================================================
+
+goto load balancer -> create lb -> application lb ->
+
+step 1 configure lb 
+name => xxx
+scheme => internet facing for public availability 
+listener => protocol change to tcp port to 8080
+availability zone => wehre back end ec2 instance are present 
+
+step 2 security 
+  nothing to configure 
+
+step 3 configure security group 
+  => same as ec2 instance security group 
+
+step 4 configure target 
+ new target group 
+ type = instance 
+ protocal = tcp 
+ port = 8080
+ health check 
+  tcp 
+  path / 
+  Advance health check 
+   change the thresh hold to less like 2 so that it will come up early 
+   
+step 5 register target 
+ don't select any instance it will be selected later 
+ 
+then review and create 
+
+==========================================================================================
+got to auto scaling group 
+
+create auto scaling group -> get started -> 
+1 part create launch configuration 
+
+chose out ami -> select t2 micro-> 
+create launch configuration -> 
+ name = 
+move to next ->  
+add store => 8  
+move to next ->
+security group 
+ tcp port 8080 -> source = custom ip = type the name of elb security group 
+ 
+ click review -> crate launch configuration -> key pari and done 
+ 
+2 part Create Auto scaling group 
+ group name : xxxx
+ group size : mins 2 
+ nextwork :default vpc 
+ subnet : select 2 subnet so that it will spin the instance in two different subnets
+ 
+ Advance details 
+  load balancing : select receive traffic from lb  
+   target group : click on input box it will show the available targets 
+  health check type : select elb 
+  health check grace :  change to lower value to that it will to 30 sec. 
+  
+  
+  move to next 
+   configurate scaling policy 
+     select :=>   keep this grop at its init size 
+     
+ move to next 
+  configure the notification 
+   add the topic => create topic in sns for email   
+   with these recipient => provide email for multiple use comma 
+   when ever options select based on use   
+   
+  move to next 
+   configure the tags 
+   provide the name it  will show for ec2 instance spin by auto scaling group 
+   
+   
+   
+DELETION OF THE THINGS 
+auto scaling group internally it will delte ec2 
+lanuch config 
+lb 
+target group must be delte after lb 
+security group 
+ami deletion 
+delete snapshot 
+
+     
+    
+
+
+  
+
+ 
+ 
+

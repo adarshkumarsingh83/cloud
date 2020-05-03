@@ -1,5 +1,10 @@
 Note: to enable Custom tcp with 8080 port in security tab with access anywhere option 
 
+#In configure instance details 
+Advance details options
+#!/bin/bash
+java -jar /home/ec2-user/application/springboot-web-rest.jar
+
 $ chmod 400 adarsh.pem
 
 $ ssh -i "adarsh.pem" ec2-user@e<publid-ip>.us-east-2.compute.amazonaws.com

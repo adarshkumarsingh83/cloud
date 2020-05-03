@@ -1,0 +1,69 @@
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <executable>true</executable>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
+
+
+
+=====ON EC2=============================================================================================================
+cd /etc/systemd/system/
+sudo vi springboot.service
+-------------------------------
+[Unit]
+Description=A Spring Boot application
+After=syslog.target
+
+[Service]
+User=ec2-user
+ExecStart=/home/ec2-user/application/springboot-web-rest.jar
+SuccessExitStatus=143
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+-------------------------------
+sudo chmod 777 springboot.service
+
+sudo systemctl daemon-reload
+sudo systemctl enable springboot.service
+
+
+sudo systemctl start springboot.service
+sudo systemctl status springboot.service
+sudo systemctl stop springboot.service
+sudo systemctl restart springboot.service
+
+https://www.auroria.io/blog/spring-boot-as-systemd-service
+========================================================================================================================
+
+
+$ sudo chown ec2-user your-app-name.jar
+$ sudo chmod 500 your-app-name.jar
+
+
+###System V Init Approach
+# to create symbloc link with jar and init.d 
+$ sudo ln -s /home/ec2-user/application/<your-app.jar> /etc/init.d/<your-app-name>
+
+# create a service for the app
+$ sudo service <your-app-name> start
+
+# create a service file in /etc/systemd/system
+<your-app-name>.service
+
+
+The script supports the standard service start, stop, restart and status commands. Moreover:
+@ it starts the services running under the user ec2-user we have just created
+@ it tracks the application’s process ID in /var/run/your-app-name/your-app-name.pid
+@ it writes console logs to /var/log/your-app-name.log, 
+ which you may want to check in case your application fails to start properly
