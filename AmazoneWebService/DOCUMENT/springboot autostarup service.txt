@@ -85,7 +85,7 @@ provide in the step 3 of the ec2 after creating from ami
 
 cp /home/ec2-user/application/esparkspringboot.service /etc/systemd/system/
 systemctl daemon-reload
-enable esparkspringboot.service
+systemctl enable esparkspringboot.service
 systemctl start esparkspringboot
 ln -s /home/ec2-user/application/springboot-web-rest.jar /etc/init.d/esparkspringboot
 chkconfig --add esparkspringboot 
