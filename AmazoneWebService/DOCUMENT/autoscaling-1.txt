@@ -1,0 +1,97 @@
+services -> ec2 -> autoscaling -> launch configuration 
+
+@PART 1
+# launch configuration 
+1. select the ami 
+2. select the instance type 
+3. Create Launch Configuration
+     name:xxxx
+     Advanced Details: 
+         User data: 
+         
+------------------------------------------------------------------------------------------
+cp /home/ec2-user/application/esparkspringboot.service /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable esparkspringboot.service
+systemctl start esparkspringboot
+ln -s /home/ec2-user/application/springboot-web-rest.jar /etc/init.d/esparkspringboot
+chkconfig --add esparkspringboot 
+chkconfig esparkspringboot on
+------------------------------------------------------------------------------------------
+
+4. select volume size 
+5. security group:
+        with ssh  22
+        with tcp 8080
+6.review
+7.key pair 
+8. create launch configuration  
+
+==========================================================================================
+@PART 2
+create elb -> application lb -> 
+1.Basic Configuration
+  name: xxxx
+  Listner:
+    http: 8080
+  Availability Zones:
+     SELECT ALL ZONES OR BASED ON THE ZONES PLANNED FOR AUTOSCALING GROUP 
+ 3.SECURITY GROUP 
+   ssh 22 
+   tcp 8080
+ 4. Configure Routing
+       Target group:
+         Name: xxxx 
+         protocal
+            htttp: 8080 
+       Health checks:
+         protocal
+           http: /
+      Advanced health check settings
+         Healthy threshold : 2
+         UnHealthy threshold: 3
+        
+  5. Register Targets
+       leave it empty 
+  6. review and create  
+  
+==========================================================================================
+@PART 3
+# create autoscaling group 
+1.Create Auto Scaling Group 
+         Name: xxx
+         Group size : 2
+         Subnet: mini two different zone 
+      Advanced Details:
+        select Receive traffic from one or more load balancers
+        Target Groups : select the lb 
+        Health Check Type : select elb    
+2.scaling policies 
+       Keep this group at its initial size
+ 
+3.notifications 
+    add notifications
+    send to notification to: create new topic 
+    recipient : email 
+4.tags 
+5.review and create 
+    
+4.tags
+5.review
+6.create   
+==========================================================================================
+@PART 4 
+ to to elb and get the dns and hit it with 
+ <dns of elb>:8080
+ or
+ curl   <dns of elb>:8080/api/message
+ 
+==========================================================================================
+@PART 5 
+  RESOURCE CLEANING 
+  
+  delete autoscaling 
+  delete launch configuration in autoscaling 
+  delete elb 
+  delete target group in autoscaling 
+ 

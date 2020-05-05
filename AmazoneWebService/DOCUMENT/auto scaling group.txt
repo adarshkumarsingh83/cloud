@@ -93,7 +93,12 @@ delete snapshot
 
 
   
-
+## to put load on cpu 
+ $ dd if=/dev/zero of=/dev/null
+ $ top 
  
+## to kill the dd cmd 
+$ ps -aef | grep dd
+$ kill <pid> 
  
 

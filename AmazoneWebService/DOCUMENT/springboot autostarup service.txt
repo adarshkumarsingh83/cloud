@@ -1,3 +1,14 @@
+
+3 Step Configure instance details 
+------------------------------------------------------
+yum update -y 
+amazon-linux-extras enable corretto8
+yum clean metadata
+yum install -y java-1.8.0-amazon-corretto
+mkdir /home/ec2-user/application
+chmod 777 /home/ec2-user/application
+------------------------------------------------------
+
 #updating the os 
 
 $ sudo -s 
