@@ -65,6 +65,9 @@ services -> vpc -> route table
    add new entry with 
    0.0.0.0/0 and select internet gateway  crated earlier
    Click on save 
+   select subnet association tab 
+   edit subnet and select the public subnet 
+   and save it 
 
 ------------------------------------------------------------------------------------------
 CREATE EC2 IN THE PUBLIC SUBNET 
@@ -161,7 +164,7 @@ services -> ec2
    4.add storage 
    5.tags
    6.security  
-       only http is required from anywhere 
+       only allow all is required from anywhere 
    7.review  
    8.create without key pair 
 
