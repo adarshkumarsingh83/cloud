@@ -1,5 +1,172 @@
-Reagin 
+CIDR CALCULATOR:
+https://www.ipaddressguide.com/cidr
+
+CIDR FORMAT :
+10.0.0.0/8 => 16,777,216
+10.0.0.0/16 => 65,536
+10.0.0.0/24  => 256
+10.0.0.0/28  => 16
+10.0.0.0/32  => 1
+
+
+Region 
  -> vpc 
-     ->subnet 
+   -> availability zone
+     -> subnet 
         
+------------------------------------------------------------------------------------------
+CREATE VPC 
+------------------------------------------------------------------------------------------
+
+@STEP 1        
+services -> vpc -> create vpc      
+    Name: xxxx 
+    CIDR : 10.0.0.0/16
+    tenancy :default
+    click on create
+
+------------------------------------------------------------------------------------------
+CREATE PUBLIC SUBNET IN THE SAME VPC 
+------------------------------------------------------------------------------------------
+        
+@STEP 2
+services -> vpc -> subnets -> create subnet 
+    Name: xxx
+    VPC: select the newly created vpc 
+    Availability zone: select the zone for subnet 
+    CIDR : 10.0.0.0/24 Note its must be subset of the vpc cidr 
+    click on create  
+    
+@STEP 3     
+services -> vpc -> internet gateway    
+   create internet gateway ->
+     Name: xxx 
+     click on create internet gateway 
+     then click on attach VPC button 
+      select the newly created vpc      
+
+@STEP 4        
+services -> vpc -> route table 
+   create route table ->
+   Name:xxx 
+   vpc: select newly created vpc 
+   Click on create 
+   now select newly created route 
+   and select the route tab in below tabs and edit it 
+   so default is already added for intra subnet and intra vpc communication 
+   add new entry with 
+   0.0.0.0/0 and select internet gateway  crated earlier
+   Click on save 
+
+------------------------------------------------------------------------------------------
+CREATE EC2 IN THE PUBLIC SUBNET 
+------------------------------------------------------------------------------------------
+
+@STEP 5
+services -> ec2 
+   create ec2 instance 
+   1.chose ami 
+   2.instance type 
+   3.instance details 
+       choose newly created vpc 
+       chose newly created subnet 
+   4.add storage 
+   5.tags
+   6.security
+    enable ssh and http port or tcp port based on requirement
+   7.review  
+   8.create    
+    
+@STEP 6
+services -> ec2 -> elasic ip 
+  allocate address -> allocate       
+  associate address 
+   instance : select the newly created ec2 
+   Click on associate            
+       
+@STEP 7
+   now public ip will be available in ec2
+   we can ssh to the ec2         
  
+ 
+------------------------------------------------------------------------------------------
+CREATE PRIVATE SUBNET IN THE SAME VPC 
+------------------------------------------------------------------------------------------
+@STEP 8
+services -> vpc -> subnets -> create subnet 
+    Name: xxx
+    VPC: select the newly created vpc 
+    Availability zone: select the zone for subnet 
+    CIDR : 10.0.1.0/24 Note its must be subset of the vpc cidr 
+    click on create 
+    
+@STEP 8
+services -> ec2 
+   create ec2 instance 
+   1.chose ami 
+   2.instance type 
+   3.instance details 
+       choose newly created vpc 
+       chose newly created private subnet 
+   4.add storage 
+   5.tags
+   6.security
+     enable ssh and http port or tcp port based on requirement
+   7.review  
+   8.create     
+   
+@STEP 9
+   ssh to the ec2 in the public subnet 
+   push the pem file to the location in the ec2 of public subnet 
+   ssh to the ec2 on the private subnet   
+   
+------------------------------------------------------------------------------------------
+CREATE NAT NETWORK ADDRESS TRANSLATOR 
+------------------------------------------------------------------------------------------    
+SO THAT PRIVATE SUBNET VPC CAN ACCESS INTERNET BUT FROM OUTSIDE NO ONE CAN ACCESS THE 
+PRIVATE SUBNET FROM OUTSIDE ITS ONE WAY GATEWAY 
+but nat gateway is not part of free tire 
+so we will use nat instance in public subnet 
+
+@STEP 10
+services -> ec2 
+   create ec2 instance 
+   1.chose ami 
+      select the community ami and serach for NAT 
+      select aws ami and do rest of the proces
+   2.instance type 
+   3.instance details  
+      choose newly created vpc 
+      chose newly created public subnet 
+      chose auto assigne public ip :enable 
+   4.add storage 
+   5.tags
+   6.security  
+       only http is required from anywhere 
+   7.review  
+   8.create without key pair 
+
+select the nat instance -> action -> networking -> Change/Source Dest Check ->  Disable    
+   
+@STEP 11        
+services -> vpc -> route table 
+   create route table ->
+   Name:xxx 
+   vpc: select newly created vpc 
+   Click on create 
+   now select newly created route 
+   and select the route tab in below tabs and edit it 
+   so default is already added for intra subnet and intra vpc communication 
+   add new entry with 
+   0.0.0.0/0 and select nat server instance crated earlier
+   Click on save 
+   Select the private route created for private subnet 
+   got to the subnet association tab in the route table 
+   edit -> check the private subnet entry and save it  
+     
+@STEP 12
+  ssh to the public subnet ec2 instance 
+  then ssh to the private subnet ec2 instance 
+  then execute the
+  $ sudo yum upate -y      
+  its its working then its connected to the internet in one way traffic  
