@@ -13,6 +13,14 @@ Region
  -> vpc 
    -> availability zone
      -> subnet 
+     
+PROVID THE NAMES TO THE DEFAULT 
+  VPC 
+  SUBNET
+  INTERNET GATEWAY 
+  ROUT TABLE 
+  SECURITY 
+       
         
 ------------------------------------------------------------------------------------------
 CREATE VPC 
@@ -117,9 +125,20 @@ services -> ec2
    
 @STEP 9
    ssh to the ec2 in the public subnet 
-   push the pem file to the location in the ec2 of public subnet 
-   ssh to the ec2 on the private subnet   
+   $ ssh -i "adarsh.pem" ec2-user@<public ip>
    
+   push the pem file to the location in the ec2 of public subnet 
+   $ scp -i <adarsh.pem> <adarsh.pem> ec2-user@<public ip>:<location on ec2>
+   $ scp -i adarsh.pem adarsh.pem ec2-user@44.230.252.242:/home/ec2-user/application/
+   
+   ssh to the ec2 on the private subnet   
+   $ ssh -i adarsh.pem ec2-user@<privateip>
+   
+   $ curl localhost:8080/api/message 
+    working 
+    
+   $ sudo yum update -y 
+     not working becoz its not connected to internet 
 ------------------------------------------------------------------------------------------
 CREATE NAT NETWORK ADDRESS TRANSLATOR 
 ------------------------------------------------------------------------------------------    
@@ -169,4 +188,21 @@ services -> vpc -> route table
   then ssh to the private subnet ec2 instance 
   then execute the
   $ sudo yum upate -y      
+  $ weg http:somehost url which return some imge or file 
   its its working then its connected to the internet in one way traffic  
+  
+  
+Deletion 
+  nat rout table 
+    disassociate it and then delete it   
+  ec2-nat-server -> action -> terminate 
+  
+  ec2-> action -> private ec2 instance -> terminate   
+  private subnet  -> delete 
+  
+  ec2-> action -> public ec2 instance -> terminate   
+  elastic ip -> release 
+  internet gateway  -> detach from vpc -> delete internet gateway 
+  subnet -> delete public subnet 
+  vpc -> delete vpc  
+  
