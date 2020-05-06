@@ -1,0 +1,53 @@
+got to EBS -> volumes 
+create volume -> 
+   type : general purpose ssd 
+   size :1  
+   availability zone must be same as the ec2 instance 
+   snapshot id: keep empty 
+   now click on create  
+once its appears in volume list then select new volume -> action 
+ -> attach volume -> provide instance id 
+
+#to got ec2 instance ssh it and execute below cmd 
+
+# formatting the external drive 
+$ sudo mkfs -t ext4 /dev/sdf
+
+#creating fs 
+$ sudo mkdir /dev/ebs
+
+#to mount the ebs 
+$ sudo mount /dev/sdf /dev/ebs
+
+# to see file system 
+$ df 
+
+#take bkp of ebs 
+select volume -> action -> create snapshot -> name and then create 
+now shapshot of volume is avalab under ebs -> shapshots 
+
+#now delete the volume 
+#create new volumen with snap shot 
+create volume -> 
+   type : general purpose ssd 
+   size :1  
+   availability zone must be same as the ec2 instance 
+   snapshot id: which we got from creating snapshot 
+ now click on create 
+ once its appears in volume list then select new volume -> action 
+ -> attach volume -> provide instance id 
+
+#to got ec2 instance ssh it and execute below cmd 
+#creating fs 
+$ sudo mkdir /dev/ebsbkp
+
+#to mount the ebs 
+$ sudo mount /dev/sdf /dev/ebsbkp
+
+# to see file system 
+$ df 
+
+#to visit location 
+$ cd /dev/ebsbkp
+$ ls -ll 
+ 
