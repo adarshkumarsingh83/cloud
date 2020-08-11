@@ -1,4 +1,5 @@
-1step:
+## 1 step:
+```
 compute -> vm instance -> create 
 name = xxxxx
 zone = xxxxx
@@ -6,12 +7,16 @@ machine type = xxxx
 boot disk = xxxx
 Firewall = allow http traffic 
            allow https traffic 
-           
-2step:           
+```   
+
+## 2 step: 
+```          
 management 
  available policy -> Preemption = on  (same as spot price of aws)          
- 
-3step: 
+```
+
+## 3 step: 
+```
 security tab 
 ssh keys (locally for vm)
 
@@ -37,8 +42,10 @@ or (globally
  compute engine -> metadata -> ssh 
  
  -> create    
- 
-4step: 
+```
+
+## 4 step: 
+```
  copy external ip xxxxxxxxxx
   
 #to login into the server 
@@ -79,9 +86,6 @@ user name = <server user name>
 key file= brose for key file which is saved as gcp_rsa.ppk 
 -> connect 
 -> add in trusted host and provide the pass phase 
-
-
-
-
+```
  
  
