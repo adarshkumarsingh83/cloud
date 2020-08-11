@@ -1,0 +1,80 @@
+
+
+#To Create a sql instance on gcp 
+$ gcloud sql instances create <instance-name> --tier=db-f1-micro --authorized-networks=0.0.0.0/0 --region=europe-west1
+
+#To Create a Sql User 
+$ gcloud beta sql users create <user-name> --instance=<instance-name> --password=<user-pwd>
+
+
+Note down the IP address of the instance, your username and password. You'll need this information later!
+
+#To Connect to the instance
+$ gcloud sql connect <instance-name> --user=root
+
+#To Create a db 
+$ mysql> CREATE DATABASE <db-name>;
+
+#granting permission to the root user 
+mysql> GRANT ALL PRIVILEGES ON <db-name>.* TO 'root'@'%' IDENTIFIED BY 'PASSWORD';
+
+#To Download the sql zip script from github 
+$ wget -O  https://github.com/adarshkumarsingh83/cloud/tree/master/GoogleCloudPlateform/sqlfile.zip 
+#for mac os to test it locally 
+$ curl -O https://github.com/adarshkumarsingh83/cloud/tree/master/GoogleCloudPlateform/sqlfile.zip
+
+#To unzip the zip file 
+$ unzip sqlfile.zip && cd sql_script
+
+#To execute the sql script to the instance 
+$ gcloud sql connect <instance-name> --user=root < employees.sql
+
+mysql> exit;
+
+
+==============================================================================================
+PROJECT=<gcp-project-id>
+REGION=us-west1
+ROOT=instance
+INSTANCE=${PROJECT}:${REGION}:${ROOT}
+
+DBNAME=espark
+DBUSER=root
+DBPASS=root
+
+
+#To Enable the service 
+$ gcloud service-management enable sqladmin --project=${PROJECT}
+
+#MySQL
+$ gcloud sql instances create ${ROOT}-m \
+--tier=db-g1-small \
+--region=${REGION} \
+--project=${PROJECT}
+
+$ gcloud sql users set-password root % \
+--instance=${ROOT}-m \
+--password=${PASSWORD} \
+--project=$PROJECT
+
+##PostgreSQL:
+$ gcloud sql instances create ${ROOT}-p \
+--cpu=1 \
+--memory=4192MiB \
+--database-version=POSTGRES_9_6 \
+--project=${PROJECT}
+
+$ gcloud sql users set-password postgres no-host \
+--instance=${ROOT}-p \
+--password=${PASSWORD} \
+--project=${PROJECT}
+
+#To Delte the project 
+$ gcloud projects delete ${PROJECT}
+
+#To Delte the Mysql
+$ gcloud sql instances delete ${INSTANCE}-m --project=${PROJECT}
+
+#To Delte the Postgrace
+$ gcloud sql instances delete ${INSTANCE}-p --project=${PROJECT}
+==============================================================================================

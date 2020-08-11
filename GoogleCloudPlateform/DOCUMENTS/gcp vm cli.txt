@@ -1,0 +1,149 @@
+#To find the image available 
+$ gcloud compute images list \
+        --project deeplearning-platform-release \
+        --no-standard-images  
+        
+#To get more information on the image family        
+$ gcloud compute images describe-from-family <image-family> \
+        --project deeplearning-platform-release  
+
+
+#To Create a instance 
+$ gcloud compute instances create --help
+
+$ export IMAGE_FAMILY="tf-latest-cu92"
+$ export ZONE="us-west1-b"
+$ export INSTANCE_NAME="my-new-instance"
+$ export INSTANCE_TYPE="n1-standard-8"
+$ gcloud compute instances create $INSTANCE_NAME \
+        --zone=$ZONE \
+        --image-family=$IMAGE_FAMILY \
+        --image-project=deeplearning-platform-release \
+        --maintenance-policy=TERMINATE \
+        --accelerator="type=nvidia-tesla-v100,count=8" \
+        --machine-type=$INSTANCE_TYPE \
+        --boot-disk-size=120GB \
+        --metadata="install-nvidia-driver=True" \
+        --preemptible
+                    
+        
+#To list the instances on gcp         
+$ gcloud compute instances list
+
+#To View a particular instance on gcp 
+$ gcloud compute instances describe $INSTANCE_NAME
+
+
+
+#To access the instance on gcp      
+$ gcloud compute ssh [INTERNAL_INSTANCE_NAME] --internal-ip   
+$ gcloud compute ssh $INSTANCE_NAME
+
+#To stop the instance on gcp         
+$ gcloud compute instances stop $INSTANCE_NAME
+
+#To start the instance on gcp         
+$ gcloud compute instances start $INSTANCE_NAME
+
+#To delte the instance on gcp         
+$ gcloud compute instances delete $INSTANCE_NAME
+
+==========================================================================================
+To ADD the key to the instance 
+------------------------------------------------------------------------------------------
+GCP UI 
+Compute Engine menu, -> click Metadata -> SSH Keys tab -> click Add SSH Keys.
+
+#To generate the ssh key pair
+$ ssh-keygen -t rsa -f ~/.ssh/gcp_rsa -C espark
+Enter Enter: espark
+Enter same Enter again: espark 
+
+#To verify the ssh key 
+$ cd ~/.ssh
+
+$ ls -ll 
+gcp_rsa
+gcp_rsa.pub
+
+#To Provide permission to the rsa file 
+$ chmod 400 gcp_rsa
+
+$ cat gcp_rsa.pub 
+Note:gcp_rsa.pub which is need to copy to the gcp 
+
+or (globally
+ compute engine -> metadata -> ssh 
+
+#to login into the server 
+$ ssh -i [PATH_TO_PRIVATE_KEY] [USERNAME]@[EXTERNAL_IP_ADDRESS]
+$ ssh -i gcp_rsa <username>@<external ip>
+
+==========================================================================================
+list of os in gcp 
+https://cloud.google.com/compute/docs/images#os-compute-support
+
+#To Create Red hat 
+$ gcloud compute instances create <example-instance> \
+      --image-family=rhel-7 --image-project=rhel-cloud \
+      --zone=us-central1-a
+      
+#To Create Ubuntu 
+$ gcloud compute instances create <example-instance> \ 
+        --image-family ubuntu-1804-lts --image-project ubuntu-os-cloud \
+        --zone=us-central1-a
+
+#To Create windows 
+$ gcloud compute instances create <example-instance> \ 
+        --image-family windows-2016-core --image-project gce-uefi-images \
+        --zone=us-central1-a
+
+#To Create CentOS
+$ gcloud compute instances create <example-instance> \ 
+        --image-family centos-7 --image-project gce-uefi-images \
+        --zone=us-central1-a
+
+# Container-Optimized OS from Google
+$ gcloud compute instances create <example-instance> \ 
+        --image-family 	cos-69-lts --image-project gce-uefi-images \
+        --zone=us-central1-a
+        
+# Debian os 	   
+$ gcloud compute instances create <example-instance> \ 
+        --image-family 	debian-9 --image-project debian-cloud \
+        --zone=us-central1-a     
+
+$ gcloud compute instances delete <example-instance> \
+         --project <NAME-OF-YOUR-PROJECT> \
+         --zone us-central1-c --quiet
+
+#To List he images 
+$ gcloud compute images list
+
+==========================================================================================
+To Login into the gcp 
+------------------------------------------------------------------------------------------
+#To login into the gcp from browser authentication.
+$ gcloud auth login 
+
+ --launch-browser
+ 
+#To Configure the product  
+$ gcloud config set project <YOUR-PROJECT-ID-HERE> 
+
+
+#To list the instance 
+$ gcloud compute instances list
+
+
+
+
+#To logout from gcloud 
+$ gcloud auth revoke --all
+or 
+$ gcloud auth revoke <your_account>
+$ gcloud auth revoke adarshkumarsingh83@gmail.com
+
+==========================================================================================
+      
+    

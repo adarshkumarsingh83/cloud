@@ -1,0 +1,62 @@
+
+# gcloud cmds reference 
+https://cloud.google.com/sdk/gcloud/reference/
+
+#To download the sdk form google server
+$ curl https://sdk.cloud.google.com | bash
+
+#To Restart your shell:
+$ exec -l $SHELL
+
+#To initialize the gcloud environment:
+$ gcloud init
+
+#To get the gcloud version 
+$ gcloud version
+
+#To get the cmd help 
+$ gcloud -h 
+
+#To get the gcloud information  
+$ gcloud info
+
+#To login into the gcp from browser authentication.
+$ gcloud auth login 
+
+ --launch-browser
+
+#To logout from gcloud 
+$ gcloud auth revoke --all
+or 
+$ gcloud auth revoke <your_account>
+$ gcloud auth revoke adarshkumarsingh83@gmail.com
+
+#To list the gcloud components 
+$ gcloud components list 
+
+#To install gcloud components 
+$ gcloud components install <COMPONENT_ID> 
+$ gcloud components install kubectl
+
+#To uninstall the componets 
+$ gcloud components remove <COMPONENT_ID>
+
+#To list the roles 
+$ gcloud iam roles list
+or 
+$ gcloud iam roles list <projectid>
+
+#To Create a new role 
+$ gcloud iam roles create <ROLE_ID> [--organization=ORGANIZATION] [--description=DESCRIPTION --permissions=PERMISSIONS  --title=TITLE]
+
+#To Discribe the role
+$ gcloud iam roles describe <ROLE_ID> [--organization=ORGANIZATION] 
+
+#To Delete the role 
+$ gcloud iam roles delete <ROLE_ID> [--organization=ORGANIZATION]
+
+#To Update the role 
+$ gcloud iam roles update <ROLE_ID> [--organization=ORGANIZATION] [--add-permissions=ADD_PERMISSIONS --description=DESCRIPTION --permissions=PERMISSIONS --remove-permissions=REMOVE_PERMISSIONS --title=TITLE] 
+
+
+
