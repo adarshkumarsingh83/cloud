@@ -8,7 +8,7 @@
 5. cmd and description.
 
 ### [AmazoneWebService (aws)](https://github.com/adarshkumarsingh83/cloud/tree/master/AmazoneWebService)
-**AMAZONE CLOUD DOCUMENTS**
+**[AMAZONE CLOUD DOCUMENTS](https://github.com/adarshkumarsingh83/cloud/tree/master/AmazoneWebService/DOCUMENT)**
 
 **SPRING BOOT APPLICTION**
 - AlexaSample		
