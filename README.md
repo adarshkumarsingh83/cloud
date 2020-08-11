@@ -8,6 +8,7 @@
 5. cmd and description.
 
 ### [AmazoneWebService (aws)](https://github.com/adarshkumarsingh83/cloud/tree/master/AmazoneWebService)
+
 **[AMAZONE CLOUD DOCUMENTS](https://github.com/adarshkumarsingh83/cloud/tree/master/AmazoneWebService/DOCUMENT)**
 
 **SPRING BOOT APPLICTION**
@@ -22,7 +23,8 @@
 - springboot-web-rest
 
 ### [GoogleCloudPlateform (gcp)](https://github.com/adarshkumarsingh83/cloud/tree/master/GoogleCloudPlateform)
-**GOOGLE CLOUD DOCUMENTS**
+
+**[GOOGLE CLOUD DOCUMENTS](https://github.com/adarshkumarsingh83/cloud/tree/master/GoogleCloudPlateform/DOCUMENTS)**
 
 **SPRING BOOT APPLICTION**
 - sprinboot-gcp-config			
@@ -36,7 +38,8 @@
 - springboot-gcp-pubsub
 
 ### [PivitolCloudFoundry (pfc)](https://github.com/adarshkumarsingh83/cloud/tree/master/PivitolCloudFoundry)
-**PIVITOL CLOUD DOCUMENTS**
+
+**[PIVITOL CLOUD DOCUMENTS](https://github.com/adarshkumarsingh83/cloud/tree/master/PivitolCloudFoundry/DOCUMENTS)**
 
 **SPRING BOOT APPLICTION**
 - springboot-mysql
