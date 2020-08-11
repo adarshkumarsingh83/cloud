@@ -40,6 +40,15 @@
 ### [PivitolCloudFoundry (pfc)](https://github.com/adarshkumarsingh83/cloud/tree/master/PivitolCloudFoundry)
 
 **[PIVITOL CLOUD DOCUMENTS](https://github.com/adarshkumarsingh83/cloud/tree/master/PivitolCloudFoundry/DOCUMENTS)**
+- 0 PCF_CLI_INSTALLATION_README.md
+- 1 PCF_LOGIN_README.md				
+- 2 PCF_WAR_OR_JAR_APP_DEPLOYMENT_README.md	
+- 3 PCF_DOCKER_README.md				
+- 4 PCF_MYSQL_README.md				
+- 5 PCF_POSTGRESS_README.md			
+- PCF_SERVICES_MANAGEMENT_README.md
+- PCF_SSH_TO_CONTAINER_README.md
+- PCF_STEP_BY_STEP_DOCKER_README.md
 
 **SPRING BOOT APPLICTION**
 - springboot-mysql
