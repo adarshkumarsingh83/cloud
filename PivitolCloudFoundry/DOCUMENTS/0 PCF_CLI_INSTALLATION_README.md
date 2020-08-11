@@ -1,16 +1,17 @@
-#PCF command documentation 
-http://cli.cloudfoundry.org/en-US/cf/
+### PCF command documentation 
+* http://cli.cloudfoundry.org/en-US/cf/
 
-https://docs.cloudfoundry.org/cf-cli/cf-help.html
+* https://docs.cloudfoundry.org/cf-cli/cf-help.html
 
-# to validate the installation 
-$ cf help
+### to validate the installation 
+* $ cf help
 
-#Navigate to the app directory:
-$ cd cf-sample-app-spring
+### Navigate to the app directory:
+* $ cd cf-sample-app-spring
 
-#Sign in to PWS:
-$ cf login -a https://api.run.pivotal.io
+### Sign in to PWS:
+* $ cf login -a https://api.run.pivotal.io
+````
 -----------------------------------------------
 Example:
 akumar38$ cf login -a https://api.run.pivotal.io
@@ -26,25 +27,28 @@ User:           adarshkumarsingh83@gmail.com
 Org:            espark-adarsh
 Space:          development
 -----------------------------------------------
-#logout from PWS 
-$ cf logout
+````
 
-#Push the app to PWS:
-$ cf push 
+### logout from PWS 
+* $ cf logout
 
-# View a snapshot of recent logs:
-$ cf logs <APP_NAME> --recent
+### Push the app to PWS:
+* $ cf push 
 
-#stream live logs:
-$ cf logs <APP_NAME>
+### View a snapshot of recent logs:
+* $ cf logs <APP_NAME> --recent
 
-#to delete the app from PWS:
-$ cf delete <APP_NAME> [-r] [-f]
--f
+### stream live logs:
+* $ cf logs <APP_NAME>
+
+### to delete the app from PWS:
+* $ cf delete <APP_NAME> [-r] [-f]
+````
+ -f
 Force deletion without confirmation
 -r
 Also delete any mapped routes
-
+````
 
 
 
