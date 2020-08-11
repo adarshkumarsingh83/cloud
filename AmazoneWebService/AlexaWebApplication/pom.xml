@@ -23,7 +23,7 @@
         <apache.commons.version>3.4</apache.commons.version>
         <commons.io.version>2.4</commons.io.version>
         <commons.codec.version>1.2</commons.codec.version>
-        <jackson.databind.version>2.1.4</jackson.databind.version>
+        <jackson.databind.version>2.9.10.5</jackson.databind.version>
         <slf4j.version>1.7.10</slf4j.version>
     </properties>
 
