@@ -7,7 +7,7 @@
 4. testing building.
 5. cmd and description.
 
-### [AmazoneWebService (aws)](https://github.com/adarshkumarsingh83/cloud/tree/master/AmazoneWebService)
+## [AmazoneWebService (aws)](https://github.com/adarshkumarsingh83/cloud/tree/master/AmazoneWebService)
 
 **[AMAZONE CLOUD DOCUMENTS](https://github.com/adarshkumarsingh83/cloud/tree/master/AmazoneWebService/DOCUMENT)**
 
@@ -22,7 +22,7 @@
 - aws-refapp-master	
 - springboot-web-rest
 
-### [GoogleCloudPlateform (gcp)](https://github.com/adarshkumarsingh83/cloud/tree/master/GoogleCloudPlateform)
+## [GoogleCloudPlateform (gcp)](https://github.com/adarshkumarsingh83/cloud/tree/master/GoogleCloudPlateform)
 
 **[GOOGLE CLOUD DOCUMENTS](https://github.com/adarshkumarsingh83/cloud/tree/master/GoogleCloudPlateform/DOCUMENTS)**
 
@@ -37,7 +37,7 @@
 - springboot-gcp-postgress-jpa			
 - springboot-gcp-pubsub
 
-### [PivitolCloudFoundry (pfc)](https://github.com/adarshkumarsingh83/cloud/tree/master/PivitolCloudFoundry)
+## [PivitolCloudFoundry (pfc)](https://github.com/adarshkumarsingh83/cloud/tree/master/PivitolCloudFoundry)
 
 **[PIVITOL CLOUD DOCUMENTS](https://github.com/adarshkumarsingh83/cloud/tree/master/PivitolCloudFoundry/DOCUMENTS)**
 - 0 PCF_CLI_INSTALLATION_README.md
