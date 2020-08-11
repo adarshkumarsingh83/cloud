@@ -1,17 +1,47 @@
 # Espark Adarsh Cloud
-## AmazoneWebService (aws) / GoogleCloudPlateform (gcp)/ PivitolCloudFoundry (pfc)
 
-0.nstallation process step by step.
+0. Installation process step by step.
+1. account creation.
+2. vm creation using cli.
+3. spring based applications deployment process.
+4. testing building.
+5. cmd and description.
 
-1.account creation.
+### [AmazoneWebService (aws)](https://github.com/adarshkumarsingh83/cloud/tree/master/AmazoneWebService)
+**AMAZONE CLOUD DOCUMENTS**
+- AlexaSample		
+- AwsS3Examaple				
+- SpringBootAlexaExample	
+- dynamodb
+- AlexaWebApplication	
+- AwsSqsExample		
+- EsparkLambdaJavaExample	
+- aws-refapp-master	
+- springboot-web-rest
 
-2.vm creation using cli.
+### [GoogleCloudPlateform (gcp)](https://github.com/adarshkumarsingh83/cloud/tree/master/GoogleCloudPlateform)
+**GOOGLE CLOUD DOCUMENTS**
 
-3.spring based applications deployment process.
+**SPRING BOOT APPLICTION**
+- sprinboot-gcp-config			
+- springboot-gcp-spanner
+- springboot-gcp-imageprocessing		
+- springboot-gcp-storage
+- springboot-gcp-mysql-jdbctemplate	
+- springboot-integration-gcp-pubsub
+- springboot-gcp-mysql-jpa		
+- springboot-gcp-postgress-jpa			
+- springboot-gcp-pubsub
 
-4.testing building.
-
-5.cmd and description.
-
+### [PivitolCloudFoundry (pfc)](https://github.com/adarshkumarsingh83/cloud/tree/master/PivitolCloudFoundry)
+**PIVITOL CLOUD DOCUMENTS**
+**SPRING BOOT APPLICTION**
+- springboot-mysql
+- springboot-postgresql		
+- springboot-docker-maven			
+- springboot-rabbitmq
+- springboot-elasticsearch					
+- springboot-employee					
+- springboot-mongodb
 
 
